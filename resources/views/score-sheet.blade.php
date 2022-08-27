@@ -35,7 +35,7 @@
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                             </svg>
                         </label>
-                        <input type="number" min="1" max="6" step="1" size="1" class="form-control form-control-sm accessible @if(array_key_exists('ones', $score_sheet['upper-section'])) disabled @else active @endif" name="ones" id="ones" placeholder="3" @if(array_key_exists('ones', $score_sheet['upper-section'])) disabled="disabled" value="{{ $score_sheet['upper-section']['ones'] }}" @endif>
+                        <input type="number" min="1" max="5" step="1" size="1" class="form-control form-control-sm accessible @if(array_key_exists('ones', $score_sheet['upper-section'])) disabled @else active @endif" name="ones" id="ones" placeholder="3" @if(array_key_exists('ones', $score_sheet['upper-section'])) disabled="disabled" value="{{ $score_sheet['upper-section']['ones'] }}" @endif>
                     </div>
                     <div class="col-2 text-center">
                         <label for="twos" class="form-label dice">
@@ -145,6 +145,86 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
+                        <h5 class="mb-0">One pair</h5>
+                    </div>
+                    <div class="col-3 text-center">
+                        <h6>Score</h6>
+                    </div>
+                    <div class="col-3 text-center">
+                        <h6>Scratch</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-0 one_pair_dice">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-3 @if(array_key_exists('one_pair', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-3 @if(array_key_exists('one_pair', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                        </p>
+                        <p class="mb-2 text-muted">
+                            Score total of the pair.
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <input type="number" min="2" max="12" step="2" size="2" class="form-control form-control-sm @if(array_key_exists('one_pair', $score_sheet['lower-section'])) disabled @else active @endif" id="one_pair" placeholder="" @if(array_key_exists('one_pair', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['one_pair'] }}" @endif>
+                        <label for="one_pair" class="visually-hidden">Two pairs</label>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center">
+                            <input class="accessible form-check-input @if(array_key_exists('one_pair', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="scratch_one_pair" value="one_pair" aria-label="Scratch one pair" @if(array_key_exists('one_pair', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('one_pair', $score_sheet['lower-section']) && $score_sheet['lower-section']['one_pair'] === 0) checked="checked" @endif>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <h5 class="mb-0">Two pair</h5>
+                    </div>
+                    <div class="col-3 text-center">
+                        <h6>Score</h6>
+                    </div>
+                    <div class="col-3 text-center">
+                        <h6>Scratch</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-0 two_pair_dice">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-3 @if(array_key_exists('two_pair', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-3 @if(array_key_exists('two_pair', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-4 @if(array_key_exists('two_pair', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-4 @if(array_key_exists('two_pair', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                        </p>
+                        <p class="mb-2 text-muted">
+                            Score total of the two matching pairs.
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <input type="number" min="6" max="22" step="2" size="2" class="form-control form-control-sm @if(array_key_exists('two_pair', $score_sheet['lower-section'])) disabled @else active @endif" id="two_pair" placeholder="" @if(array_key_exists('two_pair', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['two_pair'] }}" @endif>
+                        <label for="two_pair" class="visually-hidden">Two pairs</label>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center">
+                            <input class="accessible form-check-input @if(array_key_exists('two_pair', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="scratch_two_pair" value="two_pair" aria-label="Scratch two pair" @if(array_key_exists('two_pair', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('two_pair', $score_sheet['lower-section']) && $score_sheet['lower-section']['two_pair'] === 0) checked="checked" @endif>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
                         <h5 class="mb-0">Three of a kind</h5>
                     </div>
                     <div class="col-3 text-center">
@@ -169,11 +249,11 @@
                             </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score total of all dice.
+                            Score sum of the three matching dice.
                         </p>
                     </div>
                     <div class="col-3">
-                        <input type="number" min="5" max="30" step="1" size="2" class="form-control form-control-sm @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="three_of_a_kind" placeholder="" @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['three_of_a_kind'] }}" @endif>
+                        <input type="number" min="3" max="18" step="3" size="2" class="form-control form-control-sm @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="three_of_a_kind" placeholder="" @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['three_of_a_kind'] }}" @endif>
                         <label for="three_of_a_kind" class="visually-hidden">Three of a kind</label>
                     </div>
                     <div class="col-3">
@@ -213,11 +293,11 @@
                             </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score total of all dice.
+                            Score sum of the four matching dice.
                         </p>
                     </div>
                     <div class="col-3">
-                        <input type="number" min="5" max="30" step="1" size="2" class="form-control form-control-sm @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="four_of_a_kind" placeholder="" @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['four_of_a_kind'] }}" @endif>
+                        <input type="number" min="4" max="24" step="4" size="2" class="form-control form-control-sm @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="four_of_a_kind" placeholder="" @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['four_of_a_kind'] }}" @endif>
                         <label for="four_of_a_kind" class="visually-hidden">Four of a kind</label>
                     </div>
                     <div class="col-3">
@@ -261,12 +341,13 @@
                             </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score 25
+                            Score total of all dice
                         </p>
                     </div>
                     <div class="col-3">
                         <div class="text-center">
-                            <input class="accessible form-check-input @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="full_house" value="25" aria-label="Full house" @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('full_house', $score_sheet['lower-section']) && $score_sheet['lower-section']['full_house'] === 25) checked="checked" @endif>
+                            <input type="number" min="4" max="24" step="2" size="2" class="form-control form-control-sm @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled @else active @endif" id="full_house" placeholder="" @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['full_house'] }}" @endif>
+                            <label for="full_house" class="visually-hidden">Full house</label>
                         </div>
                     </div>
                     <div class="col-3">
@@ -279,7 +360,7 @@
                 <div class="row">
                     <div class="col-6">
                         <h5 class="mb-0">Small Straight</h5>
-                        <p class="text-muted small mb-0">Sequence of four</p>
+                        <p class="text-muted small mb-0">Roll the combination shown</p>
                     </div>
                     <div class="col-3 text-center">
                         <h6>Score</h6>
@@ -305,14 +386,18 @@
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-5 @if(array_key_exists('small_straight', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score 30
+                            Score 15
                         </p>
                     </div>
                     <div class="col-3">
                         <div class="text-center">
-                            <input class="accessible form-check-input @if(array_key_exists('small_straight', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="small_straight" value="30" aria-label="Small straight" @if(array_key_exists('small_straight', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('small_straight', $score_sheet['lower-section']) && $score_sheet['lower-section']['small_straight'] === 30) checked="checked" @endif>
+                            <input class="accessible form-check-input @if(array_key_exists('small_straight', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="small_straight" value="15" aria-label="Small straight" @if(array_key_exists('small_straight', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('small_straight', $score_sheet['lower-section']) && $score_sheet['lower-section']['small_straight'] === 15) checked="checked" @endif>
                         </div>
                     </div>
                     <div class="col-3">
@@ -325,7 +410,7 @@
                 <div class="row">
                     <div class="col-6">
                         <h5 class="mb-0">Large Straight</h5>
-                        <p class="text-muted small mb-0">Sequence of five</p>
+                        <p class="text-muted small mb-0">Roll the combination shown</p>
                     </div>
                     <div class="col-3 text-center">
                         <h6>Score</h6>
@@ -335,10 +420,6 @@
                     </div>
                     <div class="col-6">
                         <p class="mb-0 large_straight_dice">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-1 @if(array_key_exists('large_straight', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
-                                <circle cx="8" cy="8" r="1.5"/>
-                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
-                            </svg>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-2 @if(array_key_exists('large_straight', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
@@ -355,14 +436,18 @@
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm4-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('large_straight', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
+                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score 40
+                            Score 30
                         </p>
                     </div>
                     <div class="col-3">
                         <div class="text-center">
-                            <input class="accessible form-check-input @if(array_key_exists('large_straight', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="large_straight" value="40" aria-label="Large straight" @if(array_key_exists('large_straight', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('large_straight', $score_sheet['lower-section']) && $score_sheet['lower-section']['large_straight'] === 40) checked="checked" @endif>
+                            <input class="accessible form-check-input @if(array_key_exists('large_straight', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="large_straight" value="30" aria-label="Large straight" @if(array_key_exists('large_straight', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('large_straight', $score_sheet['lower-section']) && $score_sheet['lower-section']['large_straight'] === 30) checked="checked" @endif>
                         </div>
                     </div>
                     <div class="col-3">
@@ -374,7 +459,7 @@
 
                 <div class="row">
                     <div class="col-6">
-                        <h5 class="mb-0">Yahtzee</h5>
+                        <h5 class="mb-0">Yatzy</h5>
                         <p class="text-muted small mb-0">Five of a kind</p>
                     </div>
                     <div class="col-3 text-center">
@@ -384,24 +469,24 @@
                         <h6>Scratch</h6>
                     </div>
                     <div class="col-6">
-                        <p class="mb-0 yahtzee_dice">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                        <p class="mb-0 yatzy_dice">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yatzy', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yatzy', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yatzy', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yatzy', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6 @if(array_key_exists('yatzy', $score_sheet['lower-section'])) scored @endif" viewBox="0 0 16 16">
                                 <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
                                 <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             </svg>
@@ -412,12 +497,12 @@
                     </div>
                     <div class="col-3">
                         <div class="text-center">
-                            <input class="accessible form-check-input @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="yahtzee" value="50" aria-label="Yahtzee" @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 50) checked="checked" @endif>
+                            <input class="accessible form-check-input @if(array_key_exists('yatzy', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="yatzy" value="50" aria-label="Yatzy" @if(array_key_exists('yatzy', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('yatzy', $score_sheet['lower-section']) && $score_sheet['lower-section']['yatzy'] === 50) checked="checked" @endif>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="text-center">
-                            <input class="accessible form-check-input @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="scratch_yahtzee" value="yahtzee" aria-label="Scratch yahtzee" @if(array_key_exists('yahtzee', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0) checked="checked" @endif>
+                            <input class="accessible form-check-input @if(array_key_exists('yatzy', $score_sheet['lower-section'])) disabled @else active @endif" type="checkbox" id="scratch_yatzy" value="yatzy" aria-label="Scratch Yatzy" @if(array_key_exists('yatzy', $score_sheet['lower-section'])) disabled="disabled" @endif @if(array_key_exists('yatzy', $score_sheet['lower-section']) && $score_sheet['lower-section']['yatzy'] === 0) checked="checked" @endif>
                         </div>
                     </div>
                 </div>
@@ -466,48 +551,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-6">
-                        <h5 class="mb-0">Yahtzee Bonus</h5>
-                    </div>
-                    <div class="col-6 text-center">
-                        <h6>Score</h6>
-                    </div>
-                    <div class="col-6">
-                        <p class="mb-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6" viewBox="0 0 16 16">
-                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
-                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6" viewBox="0 0 16 16">
-                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
-                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6" viewBox="0 0 16 16">
-                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
-                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6" viewBox="0 0 16 16">
-                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
-                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-dice-6" viewBox="0 0 16 16">
-                                <path d="M13 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10zM3 0a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V3a3 3 0 0 0-3-3H3z"/>
-                                <path d="M5.5 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm8 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-8 4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-4a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                            </svg>
-                        </p>
-                        <p class="mb-1 text-muted">
-                            Score 100 per Yahtzee
-                        </p>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-center">
-                            <input class="accessible me-3 form-check-input @if(array_key_exists('yahtzee_bonus_one', $score_sheet['lower-section']) || $turns === 13 || (array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0)) disabled @else active @endif" type="checkbox" id="yahtzee_bonus_one" value="100" aria-label="Yahtzee bonus" @if(array_key_exists('yahtzee_bonus_one', $score_sheet['lower-section']) || $turns === 13 || (array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0)) disabled="disabled" @endif @if(array_key_exists('yahtzee_bonus_one', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee_bonus_one'] === 100) checked="checked" @endif>
-                            <input class="accessible me-3 form-check-input @if(array_key_exists('yahtzee_bonus_two', $score_sheet['lower-section'])  || $turns === 13 || (array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0)) disabled @else active @endif" type="checkbox" id="yahtzee_bonus_two" value="100" aria-label="Yahtzee bonus" @if(array_key_exists('yahtzee_bonus_two', $score_sheet['lower-section']) || $turns === 13 || (array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0)) disabled="disabled" @endif @if(array_key_exists('yahtzee_bonus_two', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee_bonus_two'] === 100) checked="checked" @endif>
-                            <input class="accessible form-check-input @if(array_key_exists('yahtzee_bonus_three', $score_sheet['lower-section']) || $turns === 13 || (array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0)) disabled @else active @endif" type="checkbox" id="yahtzee_bonus_three" value="100" aria-label="Yahtzee bonus" @if(array_key_exists('yahtzee_bonus_three', $score_sheet['lower-section']) || $turns === 13 || (array_key_exists('yahtzee', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee'] === 0)) disabled="disabled" @endif @if(array_key_exists('yahtzee_bonus_three', $score_sheet['lower-section']) && $score_sheet['lower-section']['yahtzee_bonus_three'] === 100) checked="checked" @endif>
-                        </div>
-                    </div>
-                </div>
                 <div class="row score-lower">
                     <div class="col-4">
                         <h3 class="text-center score"><strong>Upper</strong></h3>

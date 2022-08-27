@@ -129,14 +129,7 @@ class Controller extends BaseController
             $turns += count($score_sheet['upper-section']);
         }
         if (array_key_exists('lower-section', $score_sheet)) {
-            foreach ($score_sheet['lower-section'] as $combo => $score) {
-                if (
-                    $combo !== 'yahtzee_bonus_one' &&
-                    $combo !== 'yahtzee_bonus_two' &&
-                    $combo !== 'yahtzee_bonus_three') {
-                    $turns++;
-                }
-            }
+            $turns += count($score_sheet['lower-section']);
         }
 
         return $turns;
@@ -299,7 +292,7 @@ class Controller extends BaseController
                 return $this->playerBonusView($game_id, $player_id, $message);
             }
             if ($fours_total === 63) {
-                $message = 'Looking good, you haven\'t messed up yet, you can still score the bonus without a Yahtzee!';
+                $message = 'Looking good, you haven\'t messed up yet, you can still score the bonus without a Yatzy!';
                 return $this->playerBonusView($game_id, $player_id, $message);
             }
             if ($fours_total > 63) {

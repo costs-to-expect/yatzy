@@ -533,7 +533,7 @@ class Game extends Controller
             $score_upper += $value;
         }
         if ($score_upper >= 63) {
-            $score_bonus = 35;
+            $score_bonus = 50;
         }
 
         $score_sheet['score']['upper'] = $score_upper;
@@ -605,7 +605,7 @@ class Game extends Controller
         $score_sheet['score']['total'] = $score_sheet['score']['upper'] + $score_sheet['score']['bonus'] + $score_lower;
 
         $message = match ($combo) {
-            'three_of_a_kind', 'four_of_a_kind', 'chance' => 'Scored ' . $score . ' in ' . ucfirst(
+            'one_pair', 'two_pair', 'three_of_a_kind', 'four_of_a_kind', 'full_house', 'chance' => 'Scored ' . $score . ' in ' . ucfirst(
                     str_replace('_', '', $combo)
                 ),
             default => 'Scored their ' . ucfirst(str_replace('_', ' ', $combo)) . ', scoring ' . $score,

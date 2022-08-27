@@ -188,12 +188,12 @@ Route::group(
 
         Route::get(
             '/account/confirm-delete-yatzy-account',
-            [Authentication::class, 'confirmDeleteYahtzeeAccount']
+            [Authentication::class, 'confirmDeleteYatzyAccount']
         )->name('account.confirm-delete-yatzy-account');
 
         Route::post(
             '/account/delete-yatzy-account',
-            [Authentication::class, 'deleteYahtzeeAccount']
+            [Authentication::class, 'deleteYatzyAccount']
         )->name('account.delete-yatzy-account');
 
         Route::get(

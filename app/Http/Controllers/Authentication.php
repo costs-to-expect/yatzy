@@ -44,7 +44,7 @@ class Authentication extends Controller
         );
     }
 
-    public function confirmDeleteYahtzeeAccount(Request $request)
+    public function confirmDeleteYatzyAccount(Request $request)
     {
         $this->bootstrap($request);
 
@@ -150,7 +150,7 @@ class Authentication extends Controller
             ->with('authentication.failed', $response['content']);
     }
 
-    public function deleteYahtzeeAccount(Request $request, DeleteYatzyAccount $action)
+    public function deleteYatzyAccount(Request $request, DeleteYatzyAccount $action)
     {
         $this->bootstrap($request);
 
