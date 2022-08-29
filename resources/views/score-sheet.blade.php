@@ -177,7 +177,7 @@
                     </div>
                     <div class="col-3">
                         <input type="number" min="2" max="12" step="2" size="2" class="form-control form-control-sm @if(array_key_exists('one_pair', $score_sheet['lower-section'])) disabled @else active @endif" id="one_pair" placeholder="" @if(array_key_exists('one_pair', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['one_pair'] }}" @endif>
-                        <label for="one_pair" class="visually-hidden">Two pairs</label>
+                        <label for="one_pair" class="visually-hidden">One pair</label>
                     </div>
                     <div class="col-3">
                         <div class="text-center">
@@ -256,11 +256,11 @@
                             </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score sum of the three matching dice.
+                            Score total of the three matching dice.
                         </p>
                     </div>
                     <div class="col-3">
-                        <input type="number" min="3" max="18" step="3" size="2" class="form-control form-control-sm @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="three_of_a_kind" placeholder="" @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['three_of_a_kind'] }}" @endif>
+                        <input type="number" min="3" max="30" step="1" size="2" class="form-control form-control-sm @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="three_of_a_kind" placeholder="" @if(array_key_exists('three_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['three_of_a_kind'] }}" @endif>
                         <label for="three_of_a_kind" class="visually-hidden">Three of a kind</label>
                     </div>
                     <div class="col-3">
@@ -300,11 +300,11 @@
                             </svg>
                         </p>
                         <p class="mb-2 text-muted">
-                            Score sum of the four matching dice.
+                            Score total of the four matching dice.
                         </p>
                     </div>
                     <div class="col-3">
-                        <input type="number" min="4" max="24" step="4" size="2" class="form-control form-control-sm @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="four_of_a_kind" placeholder="" @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['four_of_a_kind'] }}" @endif>
+                        <input type="number" min="4" max="30" step="1" size="2" class="form-control form-control-sm @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled @else active @endif" id="four_of_a_kind" placeholder="" @if(array_key_exists('four_of_a_kind', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['four_of_a_kind'] }}" @endif>
                         <label for="four_of_a_kind" class="visually-hidden">Four of a kind</label>
                     </div>
                     <div class="col-3">

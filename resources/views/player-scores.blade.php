@@ -17,7 +17,7 @@
         </thead>
         <tbody class="table-group-divider">
             @foreach($scores as $__score)
-            <tr @if ($__score['turns'] === 13) class="table-success" @endif>
+            <tr @if ($__score['turns'] === 15) class="table-success" @endif>
                 <th scope="row">{{ $__score['name'] }}</th>
                 <td>{{ $__score['turns'] }}</td>
                 <td>{{ $__score['upper'] }}</td>

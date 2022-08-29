@@ -11,3 +11,8 @@ export function display_selected_toast(show_toast) {
     }
 }
 
+export function game_over(turns) {
+    if (turns === 15) {
+        display_selected_toast('done');
+    }
+}

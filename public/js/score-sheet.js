@@ -1,4 +1,4 @@
-import {display_selected_toast} from './functions.js';
+import {display_selected_toast, game_over} from './functions.js';
 
 (function (axios) {
     'use strict'
@@ -201,6 +201,8 @@ import {display_selected_toast} from './functions.js';
 
                     display_selected_toast(show_toast);
 
+                    game_over(response.data.turns);
+
                     document.querySelectorAll('p.' + element.id + '_dice svg').forEach(dice =>
                         dice.classList.add('scored')
                     );
@@ -249,6 +251,8 @@ import {display_selected_toast} from './functions.js';
 
                 display_selected_toast(show_toast);
 
+                game_over(response.data.turns);
+
                 document.querySelectorAll('p.' + element.id + '_dice svg').forEach(dice =>
                     dice.classList.add('scored')
                 );
@@ -295,6 +299,8 @@ import {display_selected_toast} from './functions.js';
 
                 display_selected_toast(show_toast);
 
+                game_over(response.data.turns);
+
                 document.querySelectorAll('p.' + element.id.toString().replace('scratch_', '') + '_dice svg').forEach(dice =>
                     dice.classList.add('scored')
                 );
@@ -339,6 +345,8 @@ import {display_selected_toast} from './functions.js';
                 player_final_score.innerText = response.data.score.upper + response.data.score.bonus + response.data.score.lower;
 
                 display_selected_toast(show_toast);
+
+                game_over(response.data.turns);
 
                 document.querySelectorAll('p.' + element.id.toString().replace('scratch_', '') + '_dice svg').forEach(dice =>
                     dice.classList.add('scored')
@@ -404,6 +412,8 @@ import {display_selected_toast} from './functions.js';
 
                     display_selected_toast(show_toast);
 
+                    game_over(response.data.turns);
+
                     document.querySelectorAll('label[for="' + element.id + '"] svg').forEach(dice =>
                         dice.classList.add('scored')
                     );
@@ -462,6 +472,8 @@ import {display_selected_toast} from './functions.js';
                     player_final_score.innerText = response.data.score.upper + response.data.score.bonus + response.data.score.lower;
 
                     display_selected_toast(show_toast);
+
+                    game_over(response.data.turns);
 
                     document.querySelectorAll('label[for="' + element.value + '"] svg').forEach(dice =>
                         dice.classList.add('scored')
