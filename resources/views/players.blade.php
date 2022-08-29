@@ -19,7 +19,9 @@
 
                 <p class="lead">Add a new <a href="{{ route('player.create.view') }}">player</a>.</p>
 
-                <p>Select a player for a detailed breakdown of their Yatzy games.</p>
+                <p>Select a player for a detailed breakdown* of their Yatzy games.</p>
+
+                <p class="text-muted small">* Statistics coming soon(tm)</p>
 
                 @if (count($players) > 0)
                     <ul class="list-unstyled">
