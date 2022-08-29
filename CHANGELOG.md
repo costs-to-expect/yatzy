@@ -2,6 +2,16 @@
 
 The complete changelog for the Costs to Expect REST API, our changelog follows the format defined at https://keepachangelog.com/en/1.0.0/
 
+## [1.01.1] - [2022-08-30]
+### Fixed
+- Corrected a type.
+- Adjusted min and max for combinations.
+- Impossible to score full house.
+- Corrected combination outputs in log, missing space.
+- Show end of score sheet toast
+- Player list should check for 15 turns.
+- When a player has finished their row should change in the player scores table.
+
 ## [1.01.0] - [2022-08-29]
 ### Changed
 - Added a "How to score" section to the top of each score sheet.
