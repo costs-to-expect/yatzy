@@ -91,7 +91,7 @@ import {display_selected_toast} from './functions.js';
         });
     }
 
-    let full_house = document.querySelector('input[type="checkbox"]#full_house.active');
+    let full_house = document.querySelector('input[type="number"]#full_house.active');
     if (full_house !== null) {
         full_house.addEventListener('change', function () {
             score_lower_combination(this);

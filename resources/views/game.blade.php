@@ -23,7 +23,7 @@
                         a signed-in user, <mark>[Public Score Sheet]</mark> is for non-registered users, copy the URL and send it to each user,
                         if you are on a phone, long press the link and Share.</p>
 
-                    <p>If you need to remove a player from the game, click the <mark>[Remove Player]</mark> button next to the player's name, there
+                    <p>If you need to remove a player from the game, click the <mark>[Remove Player]</mark> button next to the player's name, their
                         score sheet and access token will be removed immediately.</p>
                 @else
                     <p>We are working on a game player log and game statistics, as soon as we add them, they will

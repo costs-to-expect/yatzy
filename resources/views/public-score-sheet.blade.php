@@ -359,7 +359,7 @@
                     </div>
                     <div class="col-3">
                         <div class="text-center">
-                            <input type="number" min="4" max="24" step="2" size="2" class="form-control form-control-sm @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled @else active @endif" id="full_house" placeholder="" @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['full_house'] }}" @endif>
+                            <input type="number" min="5" max="22" step="1" size="2" class="form-control form-control-sm @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled @else active @endif" id="full_house" placeholder="" @if(array_key_exists('full_house', $score_sheet['lower-section'])) disabled="disabled" value="{{ $score_sheet['lower-section']['full_house'] }}" @endif>
                             <label for="full_house" class="visually-hidden">Full house</label>
                         </div>
                     </div>
