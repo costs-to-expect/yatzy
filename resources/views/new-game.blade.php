@@ -21,7 +21,7 @@
 
                     <div class="mb-3">
                         <h2>New Game</h2>
-                        <p>Select the players.</p>
+                        <p>Select the players, we will then generate score sheets for each of them.</p>
 
                         @foreach ($players as $__player)
                         <div class="form-check">
@@ -47,10 +47,12 @@
 
                     <button type="submit" class="btn btn-primary w-100">Start Game</button>
                     @else
-                    <span class="text-primary">
-                        You can't start a game without players, add at least one
-                        <a href="{{ route('player.create.view') }}">player</a> to get started.
-                    </span>
+                    <div class="alert alert-dark" role="alert">
+                        <h4 class="alert-heading">Oops!, No Players!</h4>
+                        <p>Before you can start a game you need to add your players.</p>
+                        <p>Add a player using this <a href="{{ route('player.create.view') }}">link</a>, as soon as
+                            you do you can start a game..</p>
+                    </div>
                     @endif
                 </form>
             </main>
