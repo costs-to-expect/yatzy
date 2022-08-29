@@ -23,12 +23,19 @@
 
             <h1>Player: {{ $player_name }}</h1>
 
+            <div class="alert alert-dark alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">How to score!</h4>
+                <p>There are two ways to score, enter the sum of any relevant dice in a text box or
+                    check the box to score the combination.</p>
+                <p class="mb-0">If you can't score, use the <mark>scratch</mark> checkbox to zero the chosen combination.</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <form>
                 <input type="hidden" id="token" name="token" value="{{ $token }}" />
                 <div class="row">
                     <div class="col-12">
                         <h2 class="text-primary">Upper Section</h2>
-                        <h5>How to score</h5>
                         <p class="text-muted mb-2">Score the total of all the matched dice.</p>
                     </div>
                 </div>
