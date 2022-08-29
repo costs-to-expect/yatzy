@@ -1,14 +1,16 @@
 $theme-colors: (
     "primary": rgba(137, 43, 124, 1),
     "danger": rgb(182, 36, 36),
+    "success": rgb(7, 138, 64),
 
     "light": rgba(239, 242, 245, 1),
     "dark": rgb(15, 27, 47),
 );
 
 $table-variants: (
-    "light":      rgba(239, 242, 245, 1),
-    "dark":       rgb(15, 27, 47),
+    "light": rgba(239, 242, 245, 1),
+    "dark": rgb(15, 27, 47),
+    "success": rgb(7, 138, 64),
 );
 
 $link-color: rgba(137, 43, 124, 1);

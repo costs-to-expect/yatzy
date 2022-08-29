@@ -606,7 +606,7 @@ class Game extends Controller
 
         $message = match ($combo) {
             'one_pair', 'two_pair', 'three_of_a_kind', 'four_of_a_kind', 'full_house', 'chance' => 'Scored ' . $score . ' in ' . ucfirst(
-                    str_replace('_', '', $combo)
+                    str_replace('_', ' ', $combo)
                 ),
             default => 'Scored their ' . ucfirst(str_replace('_', ' ', $combo)) . ', scoring ' . $score,
         };
