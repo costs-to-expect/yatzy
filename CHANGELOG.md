@@ -2,6 +2,10 @@
 
 The complete changelog for the Costs to Expect REST API, our changelog follows the format defined at https://keepachangelog.com/en/1.0.0/
 
+## [1.02.0] - [2023-01-30]
+### Changed
+- Updated authentication to match recent changes to the Costs to Expect API.
+
 ## [1.01.1] - [2022-08-30]
 ### Fixed
 - Corrected a type.
