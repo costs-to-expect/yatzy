@@ -75,6 +75,21 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
     {
         $api = new Service($this->request->cookie($this->config['cookie_bearer']));
 
+        if (array_key_exists('email', $credentials) === false || $credentials['email'] === null) {
+            $this->errors['email']['errors'] = [
+                'You need to provide your email address'
+            ];
+        }
+        if (array_key_exists('password', $credentials) === false || $credentials['password'] === null) {
+            $this->errors['password']['errors'] = [
+                'You need to provide your password'
+            ];
+        }
+
+        if (count($this->errors) > 0) {
+            return false;
+        }
+
         $response = $api->authSignIn(
             $credentials['email'],
             $credentials['password']
@@ -102,7 +117,7 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
         }
 
         if ($response['status'] === 422) {
-            $this->errors = $response['content']['fields'];
+            $this->errors = ['fields'];
             return false;
         }
 
