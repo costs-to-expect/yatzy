@@ -41,7 +41,7 @@
                             <div id="name-help" class="form-text">Please enter a name, <em>any name will do</em>.</div>
                             @if($errors !== null && array_key_exists('name', $errors))
                                 <div class="invalid-feedback">
-                                    @foreach ($errors['name'] as $error)
+                                    @foreach ($errors['name']['errors'] as $error)
                                         {{ $error }}
                                     @endforeach
                                 </div>
@@ -55,7 +55,7 @@
                                     your email address</em>.</div>
                             @if($errors !== null && array_key_exists('email', $errors))
                                 <div class="invalid-feedback">
-                                    @foreach ($errors['email'] as $error)
+                                    @foreach ($errors['email']['errors'] as $error)
                                         {{ $error }}
                                     @endforeach
                                 </div>

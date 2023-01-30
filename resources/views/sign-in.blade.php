@@ -34,7 +34,7 @@
                                     your email address</em>.</div>
                             @if($errors !== null && array_key_exists('email', $errors))
                                 <div class="invalid-feedback">
-                                    @foreach ($errors['email'] as $error)
+                                    @foreach ($errors['email']['errors'] as $error)
                                         {{ $error }}
                                     @endforeach
                                 </div>
@@ -47,7 +47,7 @@
                                     against the encrypted value in our database</em>.</div>
                             @if($errors !== null && array_key_exists('password', $errors))
                                 <div class="invalid-feedback">
-                                    @foreach ($errors['password'] as $error)
+                                    @foreach ($errors['password']['errors'] as $error)
                                         {{ $error }}
                                     @endforeach
                                 </div>
