@@ -78,7 +78,7 @@
 
 <header class="site-header sticky-top py-1">
     <nav class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-2 text-center" href="https://yatzy.costs-to-expect.com" aria-label="Product">
+        <a class="py-2 text-center" href="https://yatzy.game-scorer.com" aria-label="Product">
             <img src="{{ asset('images/logo.png') }}" alt="Costs to Expect" width="48" height="48" />
         </a>
     </nav>
