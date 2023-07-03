@@ -1,7 +1,7 @@
 <footer class="container py-5">
     <div class="row">
         <div class="col-12 col-md">
-            <small class="d-block mb-3 text-muted">&copy; 2022</small>
+            <small class="d-block mb-3 text-muted">&copy; 2023</small>
             <small class="d-block mb-3 text-muted">v{{ $version }} - {{ $release_date }}</small>
             <small class="d-block mb-3 text-muted">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
@@ -22,6 +22,7 @@
             <h5>Costs to Expect</h5>
             <ul class="list-unstyled text-small">
                 <li><a class="link-secondary" href="https://api.costs-to-expect.com">API</a></li>
+                <li><a class="link-secondary" href="https://budget-pro.costs-to-expect.com">Budget Pro</a></li>
                 <li><a class="link-secondary" href="https://budget.costs-to-expect.com">Budget</a></li>
                 <li><a class="link-secondary" href="https://app.costs-to-expect.com">Expense</a></li>
                 <li><a class="link-secondary" href="https://status.costs-to-expect.com">Service Status</a></li>

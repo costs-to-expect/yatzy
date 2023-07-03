@@ -9,3 +9,6 @@ yarn-error.log
 .idea
 .docker/mysql/data
 public/node_modules
+public/yarn.lock
+public/.yarn
+public/.yarnrc.yml
