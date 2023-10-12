@@ -71,15 +71,15 @@
                                 @endif
 
                                 <div class="pb-3 pt-1">
-                                    <form action="{{ route('game.delete', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-danger">Delete Game</button></form>
+                                    <form action="{{ route('game.delete.action', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-danger">Delete Game</button></form>
                                 </div>
                                 <div class="pb-1">
                                     <a href="{{ route('game.add-players.view', ['game_id' => $__open_game['id']]) }}" class="btn btn-sm btn-primary">Add Additional Players</a>
                                 </div>
                                 @if ($__open_game['complete'] !== 1)
                                     <div>
-                                        <form action="{{ route('game.complete', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game</button></form>
-                                        <form action="{{ route('game.complete.play-again', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game & Play Again</button></form>
+                                        <form action="{{ route('game.complete.action', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game</button></form>
+                                        <form action="{{ route('game.complete.play-again.action', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game & Play Again</button></form>
                                     </div>
                                 @endif
                             </li>

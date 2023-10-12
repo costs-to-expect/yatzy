@@ -97,8 +97,8 @@ Route::group(
 
         Route::post(
             '/new-game',
-            [Game::class, 'newGameProcess']
-        )->name('game.create.process');
+            [\App\Http\Controllers\Action\Game::class, 'newGame']
+        )->name('game.create.action');
 
         Route::get(
             '/game/{game_id}/player/{player_id}/score-sheet',
@@ -117,23 +117,23 @@ Route::group(
 
         Route::post(
             '/game/{game_id}/complete',
-            [Game::class, 'complete']
-        )->name('game.complete');
+            [\App\Http\Controllers\Action\Game::class, 'complete']
+        )->name('game.complete.action');
 
         Route::post(
             '/game/{game_id}/complete-and-play-again',
-            [Game::class, 'completeAndPlayAgain']
-        )->name('game.complete.play-again');
+            [\App\Http\Controllers\Action\Game::class, 'completeAndPlayAgain']
+        )->name('game.complete.play-again.action');
 
         Route::post(
             '/game/{game_id}/delete',
-            [Game::class, 'deleteGame']
-        )->name('game.delete');
+            [\App\Http\Controllers\Action\Game::class, 'deleteGame']
+        )->name('game.delete.action');
 
         Route::post(
             '/game/score-upper',
-            [Game::class, 'scoreUpper']
-        )->name('game.score-upper');
+            [\App\Http\Controllers\Action\Game::class, 'scoreUpper']
+        )->name('game.score-upper.action');
 
         Route::get(
             '/game/{game_id}/player/{player_id}/bonus',
@@ -142,13 +142,13 @@ Route::group(
 
         Route::get(
             '/game/{game_id}/player/{player_id}/delete',
-            [Game::class, 'deleteGamePlayer']
+            [\App\Http\Controllers\Action\Game::class, 'deleteGamePlayer']
         )->name('game.player.delete');
 
         Route::post(
             '/game/score-lower',
-            [Game::class, 'scoreLower']
-        )->name('game.score-lower');
+            [\App\Http\Controllers\Action\Game::class, 'scoreLower']
+        )->name('game.score-lower.action');
 
         Route::get(
             '/game/{game_id}/player-scores',
@@ -162,8 +162,8 @@ Route::group(
 
         Route::post(
             '/add-players-to-game/{game_id}',
-            [Game::class, 'addPlayersToGameProcess']
-        )->name('game.add-players.process');
+            [\App\Http\Controllers\Action\Game::class, 'addPlayersToGame']
+        )->name('game.add-players.action');
 
 
         Route::get(
