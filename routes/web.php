@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Authentication;
-use App\Http\Controllers\Game;
-use App\Http\Controllers\Index;
-use App\Http\Controllers\Player;
-use App\Http\Controllers\Share;
+use App\Http\Controllers\View\Authentication;
+use App\Http\Controllers\View\Game;
+use App\Http\Controllers\View\Index;
+use App\Http\Controllers\View\Player;
+use App\Http\Controllers\View\Share;
 use Illuminate\Support\Facades\Route;
 
 Route::get(
@@ -14,8 +14,8 @@ Route::get(
 
 Route::post(
     '/create-password',
-    [Authentication::class, 'createPasswordProcess']
-)->name('create-password.process');
+    [\App\Http\Controllers\Action\Authentication::class, 'createPassword']
+)->name('create-password.action');
 
 Route::get(
     '/',
@@ -29,8 +29,8 @@ Route::get(
 
 Route::post(
     '/sign-in',
-    [Authentication::class, 'signInProcess']
-)->name('sign-in.process');
+    [\App\Http\Controllers\Action\Authentication::class, 'signIn']
+)->name('sign-in.action');
 
 Route::get(
     '/register',
@@ -39,8 +39,8 @@ Route::get(
 
 Route::post(
     '/register',
-    [Authentication::class, 'registerProcess']
-)->name('register.process');
+    [\App\Http\Controllers\Action\Authentication::class, 'register']
+)->name('register.action');
 
 Route::get(
     '/registration-complete',
@@ -193,8 +193,8 @@ Route::group(
 
         Route::post(
             '/account/delete-yatzy-account',
-            [Authentication::class, 'deleteYatzyAccount']
-        )->name('account.delete-yatzy-account');
+            [\App\Http\Controllers\Action\Authentication::class, 'deleteYatzyAccount']
+        )->name('account.delete-yatzy-account.action');
 
         Route::get(
             '/account/confirm-delete-account',
@@ -203,7 +203,7 @@ Route::group(
 
         Route::post(
             '/account/delete-account',
-            [Authentication::class, 'deleteAccount']
-        )->name('account.delete-account');
+            [\App\Http\Controllers\Action\Authentication::class, 'deleteAccount']
+        )->name('account.delete-account.action');
     }
 );

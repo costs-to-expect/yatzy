@@ -58,7 +58,7 @@
                     </table>
                 </div>
 
-                <form action="{{ route('account.delete-account') }}" method="POST" class="d-inline">
+                <form action="{{ route('account.delete-account.action') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-danger">Confirm Delete (Cannot be undone)</button>
                     <a href="{{ route('account') }}" class="btn btn-sm btn-primary">Cancel</a>

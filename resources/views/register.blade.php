@@ -23,7 +23,7 @@
                         </a>
                     </div>
 
-                    <form action="{{ route('register.process') }}" method="POST" class="col-12 col-md-4 col-lg-3 mx-auto p-2">
+                    <form action="{{ route('register.action') }}" method="POST" class="col-12 col-md-4 col-lg-3 mx-auto p-2">
 
                         @csrf
 

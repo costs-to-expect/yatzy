@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\View;
 
 use App\Actions\Game\Log;
 use App\Api\Service;
+use App\Http\Controllers\Controller;
 use App\Models\ShareToken;
 use App\Notifications\ApiError;
 use Illuminate\Http\Request;

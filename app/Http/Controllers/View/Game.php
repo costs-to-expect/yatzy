@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\View;
 
 use App\Actions\Game\AddPlayers;
 use App\Actions\Game\Complete;
@@ -9,6 +9,7 @@ use App\Actions\Game\Create;
 use App\Actions\Game\Delete;
 use App\Actions\Game\DeletePlayer;
 use App\Actions\Game\Log;
+use App\Http\Controllers\Controller;
 use App\Models\ShareToken;
 use App\Notifications\ApiError;
 use Illuminate\Http\Request;

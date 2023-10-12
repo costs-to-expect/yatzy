@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\View;
 
 use App\Actions\Player\Create;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 /**
