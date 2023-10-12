@@ -128,6 +128,12 @@ class Authentication extends Controller
             Notification::route('mail', $request->input('email'))
                 ->notify(new Registered());
 
+            $credentials = $request->only(['email', 'password']);
+
+            if (Auth::attempt($credentials, $request->input('remember_me') !== null)) {
+                return redirect()->route('home');
+            }
+
             return redirect()->route('registration-complete');
         }
 
