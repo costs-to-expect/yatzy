@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\View;
 
+use App\Http\Controllers\Controller;
 use App\Models\ShareToken;
 use Illuminate\Http\Request;
 
@@ -78,7 +79,9 @@ class Index extends Controller
 
                 'share_tokens' => (new ShareToken())->getShareTokens(),
 
-                'game_scores' => $game_scores
+                'game_scores' => $game_scores,
+
+                'errors' => session()->get('validation.errors')
             ]
         );
     }

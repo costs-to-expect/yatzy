@@ -23,7 +23,7 @@
                         </a>
                     </div>
 
-                    <form action="{{ route('create-password.process') }}" method="POST" class="col-12 col-md-4 col-lg-3 mx-auto p-2">
+                    <form action="{{ route('create-password.action') }}" method="POST" class="col-12 col-md-4 col-lg-3 mx-auto p-2">
 
                         @csrf
 

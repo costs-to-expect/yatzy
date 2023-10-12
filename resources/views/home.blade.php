@@ -24,7 +24,7 @@
                         if you are on a phone, long press the link and Share.</p>
 
                     <p>If you need to remove a player from the game, click the <mark>[Remove Player]</mark> button next to the player's name, their
-                        score sheet and access token will be removed immediately.</p>
+                        scoresheet and access token will be removed immediately.</p>
 
                     <ul class="list-unstyled">
                         @foreach ($open_games as $__open_game)
@@ -71,15 +71,15 @@
                                 @endif
 
                                 <div class="pb-3 pt-1">
-                                    <form action="{{ route('game.delete', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-danger">Delete Game</button></form>
+                                    <form action="{{ route('game.delete.action', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-danger">Delete Game</button></form>
                                 </div>
                                 <div class="pb-1">
                                     <a href="{{ route('game.add-players.view', ['game_id' => $__open_game['id']]) }}" class="btn btn-sm btn-primary">Add Additional Players</a>
                                 </div>
                                 @if ($__open_game['complete'] !== 1)
                                     <div>
-                                        <form action="{{ route('game.complete', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game</button></form>
-                                        <form action="{{ route('game.complete.play-again', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game & Play Again</button></form>
+                                        <form action="{{ route('game.complete.action', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game</button></form>
+                                        <form action="{{ route('game.complete.play-again.action', ['game_id' => $__open_game['id']]) }}" method="POST" class="d-inline">@csrf <button type="submit" class="btn btn-sm btn-primary">Complete Game & Play Again</button></form>
                                     </div>
                                 @endif
                             </li>
@@ -89,16 +89,47 @@
                     <hr class="col-12 col-md-6 mb-4">
                 @endif
 
-                <h2>New game</h2>
+                    @if (count($players) === 0 || ($errors !== null && array_key_exists('players', $errors)))
+                        <form action="{{ route('start') }}" method="POST" class="col-12 col-md-6 col-lg-6 p-2">
+                            <div class="mb-3">
+                                <h2>Let's get started!</h2>
+                                <p>Enter each of your players on a new line in the box below.</p>
 
-                <p class="fs-5 col-md-8">Start a new <a href="{{ route('game.create.view') }}">game</a></p>
+                                @csrf
+
+                                <div class="mt-3 mb-3">
+                                    <label for="players" class="form-label">Players</label>
+                                    <textarea name="players" class="form-control @if($errors !== null && array_key_exists('players', $errors)) is-invalid @endif" id="players" rows="4" aria-describedby="players-help" required>{{ old('players') }}</textarea>
+                                    <div id="players-help" class="form-text">Please enter all players, one name per line.</div>
+                                    @if($errors !== null && array_key_exists('players', $errors))
+                                        <div class="invalid-feedback">
+                                            @foreach ($errors['players']['errors'] as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Start Game</button>
+                        </form>
+
+                    @endif
+
+                    @if (count($players) !== 0 || ($errors !== null && array_key_exists('players', $errors)))
+
+                        <h2>New game</h2>
+
+                        <p class="fs-5 col-md-8">Start a new <a href="{{ route('game.create.view') }}">game</a> and choose your players.</p>
+
+                    @endif
 
                 <hr class="col-12 col-md-6 mb-4">
 
                 <div class="row g-4">
                     <div class="col-md-6">
                         <h3>Recent Games</h3>
-                        <p>View your recent games, open a game to see all the statistics.</p>
+                        <p>Open a recent game to see all the player scoresheets.</p>
 
                         @if (count($closed_games) > 0)
                         <ul class="list-unstyled">
@@ -130,19 +161,17 @@
                            @endforeach
                         @else
                         <div class="alert alert-dark" role="alert">
-                            <h4 class="alert-heading">No games yet!</h4>
-                            <p>As soon as you complete a game, this is where your recent games will show,
-                                you will have quick access to statistics for each game and access to the
-                                game log.</p>
+                            <h4 class="alert-heading">No finished games!</h4>
+                            <p>As soon as you complete a game, we will show your recent games here.
+                                In the future(tm) we will add game statistics and a game replay log.</p>
                         </div>
                         @endif
                     </div>
 
                     <div class="col-md-6">
                         <h3>Players</h3>
-                        <p>Select a player for a detailed breakdown* of their Yatzy games.</p>
 
-                        <p class="text-muted small">* Statistics coming soon(tm)</p>
+                        <p>In the future(tm) we will add player statistics.</p>
 
                         @if (count($players) > 0)
                         <ul class="list-unstyled">
@@ -156,10 +185,11 @@
                             @endforeach
                         </ul>
                         @else
-                        <p class="text-primary">You haven't added any players yet, you need to
-                            <a href="{{ route('player.create.view') }}">add</a>
-                            some players before you can start a game.
-                        </p>
+                            <div class="alert alert-dark" role="alert">
+                                <h4 class="alert-heading">No Players!</h4>
+                                <p>Add a <a href="{{ route('player.create.view') }}">new player</a>, as soon as
+                                    you do, they can be included in new games.</p>
+                            </div>
                         @endif
                     </div>
                 </div>

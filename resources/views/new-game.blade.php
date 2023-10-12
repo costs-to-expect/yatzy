@@ -15,7 +15,7 @@
 
         <div class="col-lg-8 mx-auto p-3 py-md-5">
             <main>
-                <form action="{{ route('game.create.process') }}" method="POST" class="col-12 col-md-4 col-lg-4 mx-auto p-2">
+                <form action="{{ route('game.create.action') }}" method="POST" class="col-12 col-md-4 col-lg-4 mx-auto p-2">
 
                     @csrf
 

@@ -37,13 +37,34 @@
                         <a class="nav-link" href="{{ route('player.create.view') }}">- New Player</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://api.costs-to-expect.com">The API</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link @if($active === 'account') active @endif" @if($active === 'account') aria-current="page" @endif href="{{ route('account') }}">Account</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="{{ route('account.confirm-delete-yatzy-account') }}">- Delete Yatzy Account</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="{{ route('account.confirm-delete-account') }}">- Delete Account</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('sign-out') }}">Sign-out</a>
+                    </li>
+                    <li class="nav-item text-white-50 pt-3">
+                        <strong>Costs to Expect</strong>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="https://api.costs-to-expect.com">- API</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="https://budget.costs-to-expect.com">- Budget</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="https://budget-pro.costs-to-expect.com">- Budget Pro</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="https://yahtzee.game-scorer.com">- Yahtzee Game Scorer</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="https://yatzy.game-scorer.com">- Yatzy Game Scorer</a>
                     </li>
                 </ul>
             </div>

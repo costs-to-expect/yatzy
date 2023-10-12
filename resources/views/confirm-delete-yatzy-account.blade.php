@@ -15,13 +15,10 @@
 
         <div class="col-lg-8 mx-auto p-3 py-md-5">
             <main>
-                <h2>Confirm delete Yatzy account</h2>
+                <h2>Delete Yatzy account</h2>
 
-                <p class="lead">We aren't trying to stop you, we just want to make sure you want to
-                    do this, clicking the button below is final.</p>
-
-                <p class="lead">We will create a background task to delete your data, the task should
-                    start after a minute, once it completes your data will be gone and your session
+                <p class="lead">We will immediately create a background task to delete your data, the task should
+                    start within a minute, once it completes all your Yatzy data will be gone and your session
                     will be deleted.</p>
 
                 <p>Please review the tables below to see what will be deleted and what will remain.</p>
@@ -89,16 +86,16 @@
                             <td>API</td>
                         </tr>
                         <tr>
-                            <td>Other App</td>
+                            <td>Other Apps</td>
                             <td>Your will still have access to all the other Costs to Expect Apps and
                                 none of your data will be touched</td>
-                            <td>API & Relevant Apps</td>
+                            <td>API & other Costs to Expect Apps</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <form action="{{ route('account.delete-yatzy-account') }}" method="POST" class="d-inline">
+                <form action="{{ route('account.delete-yatzy-account.action') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-danger">Confirm Delete (Cannot be undone)</button>
                     <a href="{{ route('account') }}" class="btn btn-sm btn-primary">Cancel</a>

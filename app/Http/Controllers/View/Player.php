@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\View;
 
-use App\Actions\Player\Create;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 /**
@@ -50,25 +50,5 @@ class Player extends Controller
                 'errors' => session()->get('validation.errors')
             ]
         );
-    }
-
-    public function newPlayerProcess(Request $request)
-    {
-        $this->bootstrap($request);
-
-        $action = new Create();
-        $result = $action($this->api, $this->resource_type_id, $request->only(['name', 'description']));
-
-        if ($result === 201) {
-            return redirect()->route('players');
-        }
-
-        if ($result === 422) {
-            return redirect()->route('player.create.view')
-                ->withInput()
-                ->with('validation.errors',$action->getValidationErrors());
-        }
-
-        abort($result, $action->getMessage());
     }
 }
