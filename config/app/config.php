@@ -11,6 +11,6 @@ return [
     'error_email' => env('ERROR_EMAIL'),
     'cookie_user' => env('SESSION_NAME_USER'),
     'cookie_bearer' => env('SESSION_NAME_BEARER'),
-    'version' => '1.03.0',
-    'release_date' => '2nd July 2023'
+    'version' => '1.04.0',
+    'release_date' => '12th October 2023'
 ];
