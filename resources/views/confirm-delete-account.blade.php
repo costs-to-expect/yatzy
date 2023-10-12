@@ -15,7 +15,7 @@
 
         <div class="col-lg-8 mx-auto p-3 py-md-5">
             <main>
-                <h2>Confirm delete account</h2>
+                <h2>Delete account</h2>
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -26,11 +26,8 @@
                     </li>
                 </ul>
 
-                <p class="lead">We aren't trying to stop you, we just want to make sure you want to
-                    do this, clicking the button below is final.</p>
-
-                <p class="lead">We will create a background task to delete your data, the task should
-                    start after a minute, once it completes your data will be gone and your session
+                <p class="lead">We will immediately create a background task to delete your data, the task should
+                    start within a minute, once it completes your data will be gone and your session
                     will be deleted.</p>
 
                 <p>Please review the table below to see what will be deleted, nothing will remain.</p>

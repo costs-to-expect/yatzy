@@ -17,7 +17,7 @@
             <main>
                 <h2>Your account</h2>
 
-                <p class="load">Manage your account details below.</p>
+                <p class="lead">Manage your account below, profile updates coming soon.</p>
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
@@ -41,122 +41,11 @@
 
                 <h3 class="mt-5">Delete Yatzy account</h3>
 
-                <p class="lead">This will delete all your Yatzy games and any data
-                    specific to the Yatzy App.</p>
-
-                <p>Please review the tables below to see what will be deleted and what will remain.</p>
-
-                <h4>Data that will be deleted</h4>
-
-                <p>All the data listed in this table will be deleted.</p>
-
-                <div class="table-responsive">
-                    <table class="table table-dark">
-                        <thead>
-                        <tr>
-                            <th scope="col">Content</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Location</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Yatzy Games</td>
-                            <td>Your open and complete games</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Share Tokens</td>
-                            <td>Public share tokens for open games</td>
-                            <td>Yatzy</td>
-                        </tr>
-                        <tr>
-                            <td>Game Log</td>
-                            <td>The logs containing all game actions</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Sessions</td>
-                            <td>Session information</td>
-                            <td>Yatzy</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h4>Data that will be not deleted</h4>
-
-                <p>All the data listed in this table will remain.</p>
-
-                <div class="table-responsive">
-                    <table class="table table-dark">
-                        <thead>
-                        <tr>
-                            <th scope="col">Content</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Location</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Account</td>
-                            <td>Your Costs to Expect account, one account for all our Apps</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Players</td>
-                            <td>Players you created, usable across all our game scoring Apps</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Other App</td>
-                            <td>Your will still have access to all the other Costs to Expect Apps and
-                                none of your data will be touched</td>
-                            <td>API & Relevant Apps</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <a href="{{ route('account.confirm-delete-yatzy-account') }}" class="btn btn-sm btn-danger">Delete Yatzy Account</a>
+                <p class="lead">You can delete your Yatzy account <a href="{{ route('account.confirm-delete-yatzy-account') }}">here</a>.</p>
 
                 <h3 class="mt-5">Delete Costs to Expect account</h3>
 
-                <p class="lead">This will delete your Costs to Expect account, your Yatzy account will be
-                    deleted along with all your other Costs to Expect accounts, API, Budget, Expense etc.</p>
-
-                <p>Please review the table below to see what will be deleted, nothing will remain.</p>
-
-                <h4>Data that will be deleted</h4>
-
-                <div class="table-responsive">
-                    <table class="table table-dark">
-                        <thead>
-                        <tr>
-                            <th scope="col">Content</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Location</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Account</td>
-                            <td>Your Costs to Expect account</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Data</td>
-                            <td>All the data we have stored will be deleted</td>
-                            <td>API & all our Apps</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <a href="{{ route('account.confirm-delete-account') }}" class="btn btn-sm btn-danger">Delete Account (Coming Soon *)</a>
-
-                <p>* We need to update the API to support this, expect an update soon.</p>
-
+                <p class="lead">You can delete your entire Costs to Expect account <a href="{{ route('account.confirm-delete-account') }}">here</a>.</p>
             </main>
             <x-footer />
         </div>
