@@ -59,13 +59,13 @@ Route::get(
 
 Route::post(
     '/public/score-sheet/{token}/score-upper',
-    [Share::class, 'scoreUpper']
-)->name('public.score-upper');
+    [\App\Http\Controllers\Action\Share::class, 'scoreUpper']
+)->name('public.score-upper.action');
 
 Route::post(
     '/public/score-sheet/{token}/score-lower',
-    [Share::class, 'scoreLower']
-)->name('public.score-lower');
+    [\App\Http\Controllers\Action\Share::class, 'scoreLower']
+)->name('public.score-lower.action');
 
 Route::get(
     '/public/game/{token}/player-scores',
@@ -178,8 +178,8 @@ Route::group(
 
         Route::post(
             '/new-player',
-            [Player::class, 'newPlayerProcess']
-        )->name('player.create.process');
+            [\App\Http\Controllers\Action\Player::class, 'newPlayer']
+        )->name('player.create.action');
 
         Route::get(
             '/account',
