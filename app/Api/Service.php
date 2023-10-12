@@ -245,17 +245,6 @@ class Service
     }
 
     #[ArrayShape(['status' => "integer", 'content' => "array"])]
-    public function deleteResource(
-        string $resource_type_id,
-        string $resource_id
-    ): array
-    {
-        $uri = Uri::resource($resource_type_id, $resource_id);
-
-        return $this->http->delete($uri['uri']);
-    }
-
-    #[ArrayShape(['status' => "integer", 'content' => "array"])]
     public function getGame(
         string $resource_type_id,
         string $resource_id,
@@ -362,6 +351,25 @@ class Service
                 'email' => $payload['email']
             ]
         );
+    }
+
+    #[ArrayShape(['status' => "integer", 'content' => "array", 'fields' => "array"])]
+    public function requestResourceDelete(
+        string $resource_type_id,
+        string $resource_id
+    ): array
+    {
+        $uri = Uri::requestResourceDelete($resource_type_id, $resource_id);
+
+        return $this->http->post($uri['uri'], []);
+    }
+
+    #[ArrayShape(['status' => "integer", 'content' => "array", 'fields' => "array"])]
+    public function requestAccountDelete(): array
+    {
+        $uri = Uri::requestAccountDelete();
+
+        return $this->http->post($uri['uri'], []);
     }
 
     #[ArrayShape(['status' => "integer", 'content' => "array", 'fields' => "array"])]

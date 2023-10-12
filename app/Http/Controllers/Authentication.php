@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\Account\DeleteAccount;
 use App\Actions\Account\DeleteYatzyAccount;
 use App\Api\Service;
 use App\Models\PartialRegistration;
@@ -150,7 +151,7 @@ class Authentication extends Controller
             ->with('authentication.failed', $response['content']);
     }
 
-    public function deleteYatzyAccount(Request $request, DeleteYatzyAccount $action)
+    public function deleteYatzyAccount(Request $request, DeleteYatzyAccount $action): RedirectResponse
     {
         $this->bootstrap($request);
 
@@ -169,6 +170,25 @@ class Authentication extends Controller
         );
 
         return redirect()->route('account', ['job'=>'delete-yatzy-account']);
+    }
+
+    public function deleteAccount(Request $request, DeleteAccount $action): RedirectResponse
+    {
+        $this->bootstrap($request);
+
+        $user = $this->api->getAuthUser();
+
+        if ($user['status'] !== 200) {
+            abort(404, 'Unable to fetch your account from the API');
+        }
+
+        $action(
+            $request->cookie($this->config['cookie_bearer']),
+            $user['content']['id'],
+            $user['content']['email']
+        );
+
+        return redirect()->route('account', ['job'=>'delete-account']);
     }
 
     public function register()

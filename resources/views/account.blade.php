@@ -32,6 +32,15 @@
                     @if ($job === 'delete-yatzy-account')
                         <div class="alert alert-dark mt-5" role="alert">
                             <h4 class="alert-heading">Delete started!</h4>
+                            <p>A job has been added to delete your Yatzy account, we should be done in a minute or two!</p>
+                            <p>You have been logged out, if you refresh you will be back at the login screen.</p>
+                            <p>You will get an email when your account has been deleted.</p>
+                        </div>
+                    @endif
+
+                    @if ($job === 'delete-account')
+                        <div class="alert alert-dark mt-5" role="alert">
+                            <h4 class="alert-heading">Delete started!</h4>
                             <p>A job has been added to delete your account, we should be done in a minute or two!</p>
                             <p>You have been logged out, if you refresh you will be back at the login screen.</p>
                             <p>You will get an email when your account has been deleted.</p>

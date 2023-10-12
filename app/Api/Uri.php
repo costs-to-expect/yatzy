@@ -197,6 +197,39 @@ class Uri
     }
 
     #[ArrayShape(['uri' => "string", 'name' => "string"])]
+    public static function requestResourceDelete(
+        string $resource_type_id,
+        string $resource_id,
+        array $parameters = []
+    ): array {
+        $uri = '/'.self::VERSION.'/auth/user/permitted-resource-types/'.
+            $resource_type_id.'/resources/' . $resource_id .'/request-delete';
+        if (count($parameters) > 0) {
+            $uri .= '?'.http_build_query($parameters);
+        }
+
+        return [
+            'uri' => $uri,
+            'name' => 'Request resource deletion',
+        ];
+    }
+
+    #[ArrayShape(['uri' => "string", 'name' => "string"])]
+    public static function requestAccountDelete(
+        array $parameters = []
+    ): array {
+        $uri = '/'.self::VERSION.'/auth/user/request-delete';
+        if (count($parameters) > 0) {
+            $uri .= '?'.http_build_query($parameters);
+        }
+
+        return [
+            'uri' => $uri,
+            'name' => 'Request account deletion',
+        ];
+    }
+
+    #[ArrayShape(['uri' => "string", 'name' => "string"])]
     public static function resources(string $resource_type_id, array $parameters = []): array
     {
         $uri = '/' . self::VERSION . '/resource-types/' . $resource_type_id . '/resources';

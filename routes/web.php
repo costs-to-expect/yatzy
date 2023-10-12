@@ -200,5 +200,10 @@ Route::group(
             '/account/confirm-delete-account',
             [Authentication::class, 'confirmDeleteAccount']
         )->name('account.confirm-delete-account');
+
+        Route::post(
+            '/account/delete-account',
+            [Authentication::class, 'deleteAccount']
+        )->name('account.delete-account');
     }
 );

@@ -6,7 +6,7 @@ namespace App\Jobs;
 
 use App\Api\Service;
 use App\Notifications\ApiError;
-use App\Notifications\Bye;
+use App\Notifications\ByeBye;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,15 +22,13 @@ use Throwable;
  * @copyright Dean Blackborough (Costs to Expect) 2018-2022
  * https://github.com/costs-to-expect/yatzy/blob/main/LICENSE
  */
-class DeleteYatzyAccount implements ShouldQueue
+class DeleteAccount implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $timeout = 180;
 
     private string $bearer_token;
-    private string $resource_type_id;
-    private string $resource_id;
     private string $user_id;
     private string $email;
 
@@ -38,15 +36,11 @@ class DeleteYatzyAccount implements ShouldQueue
 
     public function __construct(
         string $bearer_token,
-        string $resource_type_id,
-        string $resource_id,
         string $user_id,
         string $email
     )
     {
         $this->bearer_token = $bearer_token;
-        $this->resource_type_id = $resource_type_id;
-        $this->resource_id = $resource_id;
         $this->user_id = $user_id;
         $this->email = $email;
     }
@@ -55,15 +49,12 @@ class DeleteYatzyAccount implements ShouldQueue
     {
         $this->apiService();
 
-        $response = $this->service->requestResourceDelete(
-            $this->resource_type_id,
-            $this->resource_id
-        );
+        $response = $this->service->requestAccountDelete();
 
         if ($response['status'] !== 201) {
             $this->fail(
                 (new \Exception(
-                    'Unable to request the deletion of Yatzy account with resource id ' . $this->resource_id . ' error: ' .
+                    'Unable to request the deletion of account with user id ' . $this->user_id . ' error: ' .
                     json_encode($response['content'])
                 ))
             );
@@ -74,7 +65,7 @@ class DeleteYatzyAccount implements ShouldQueue
             ->delete();
 
         Notification::route('mail', $this->email)
-            ->notify(new Bye());
+            ->notify(new ByeBye());
     }
 
     public function failed(Throwable $exception)
@@ -83,12 +74,12 @@ class DeleteYatzyAccount implements ShouldQueue
 
         Notification::route('mail', $config['error_email'])
             ->notify(new ApiError(
-                'Unable to delete the Yatzy account for user id ' . $this->user_id,
+                'Unable to delete the account for user id ' . $this->user_id,
                 $exception->getMessage()
             ));
     }
 
-    private function apiService(): void
+    private function apiService()
     {
         $this->service = new Service($this->bearer_token);
     }

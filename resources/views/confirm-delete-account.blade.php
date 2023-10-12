@@ -58,10 +58,11 @@
                     </table>
                 </div>
 
-                <a href="#" class="btn btn-sm btn-danger disabled">Confirm Delete (Coming Soon*)</a>
-                <a href="{{ route('account') }}" class="btn btn-sm btn-primary">Cancel</a>
-
-                <p>* We need to update the API to support this, expect an update soon.</p>
+                <form action="{{ route('account.delete-account') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-danger">Confirm Delete (Cannot be undone)</button>
+                    <a href="{{ route('account') }}" class="btn btn-sm btn-primary">Cancel</a>
+                </form>
 
             </main>
             <x-footer />
