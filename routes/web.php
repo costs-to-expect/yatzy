@@ -89,6 +89,10 @@ Route::group(
             [Index::class, 'home']
         )->name('home');
 
+        Route::post(
+            '/start',
+            [\App\Http\Controllers\Action\Game::class, 'start']
+        )->name('start');
 
         Route::get(
             '/new-game',

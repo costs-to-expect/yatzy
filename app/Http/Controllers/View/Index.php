@@ -79,7 +79,9 @@ class Index extends Controller
 
                 'share_tokens' => (new ShareToken())->getShareTokens(),
 
-                'game_scores' => $game_scores
+                'game_scores' => $game_scores,
+
+                'errors' => session()->get('validation.errors')
             ]
         );
     }

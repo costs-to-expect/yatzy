@@ -24,7 +24,7 @@
                         if you are on a phone, long press the link and Share.</p>
 
                     <p>If you need to remove a player from the game, click the <mark>[Remove Player]</mark> button next to the player's name, their
-                        score sheet and access token will be removed immediately.</p>
+                        scoresheet and access token will be removed immediately.</p>
 
                     <ul class="list-unstyled">
                         @foreach ($open_games as $__open_game)
@@ -89,9 +89,40 @@
                     <hr class="col-12 col-md-6 mb-4">
                 @endif
 
-                <h2>New game</h2>
+                    @if (count($players) === 0 || ($errors !== null && array_key_exists('players', $errors)))
+                        <form action="{{ route('start') }}" method="POST" class="col-12 col-md-6 col-lg-6 p-2">
+                            <div class="mb-3">
+                                <h2>Let's get started!</h2>
+                                <p>Enter each of your players on a new line in the box below.</p>
 
-                <p class="fs-5 col-md-8">Start a new <a href="{{ route('game.create.view') }}">game</a></p>
+                                @csrf
+
+                                <div class="mt-3 mb-3">
+                                    <label for="players" class="form-label">Players</label>
+                                    <textarea name="players" class="form-control @if($errors !== null && array_key_exists('players', $errors)) is-invalid @endif" id="players" rows="4" aria-describedby="players-help" required>{{ old('players') }}</textarea>
+                                    <div id="players-help" class="form-text">Please enter all players, one name per line.</div>
+                                    @if($errors !== null && array_key_exists('players', $errors))
+                                        <div class="invalid-feedback">
+                                            @foreach ($errors['players']['errors'] as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Start Game</button>
+                        </form>
+
+                    @endif
+
+                    @if (count($players) !== 0 || ($errors !== null && array_key_exists('players', $errors)))
+
+                        <h2>New game</h2>
+
+                        <p class="fs-5 col-md-8">Start a new <a href="{{ route('game.create.view') }}">game</a> and choose your players.</p>
+
+                    @endif
 
                 <hr class="col-12 col-md-6 mb-4">
 

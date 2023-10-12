@@ -9,6 +9,7 @@ use App\Actions\Game\Create;
 use App\Actions\Game\Delete;
 use App\Actions\Game\DeletePlayer;
 use App\Actions\Game\Log;
+use App\Actions\Game\Start;
 use App\Http\Controllers\Controller;
 use App\Notifications\ApiError;
 use Illuminate\Http\Request;
@@ -338,5 +339,30 @@ class Game extends Controller
             $request->input('player_id'),
             $score_sheet
         );
+    }
+
+    public function start(Request $request)
+    {
+        $this->bootstrap($request);
+
+        $action = new Start();
+        $result = $action(
+            $this->api,
+            $this->resource_type_id,
+            $this->resource_id,
+            $request->only(['players'])
+        );
+
+        if ($result === 201) {
+            return redirect()->route('game.show', ['game_id' => $action->getGameId()]);
+        }
+
+        if ($result === 422) {
+            return redirect()->route('home')
+                ->withInput()
+                ->with('validation.errors',$action->getValidationErrors());
+        }
+
+        abort($result, $action->getMessage());
     }
 }
