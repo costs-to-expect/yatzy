@@ -97,9 +97,13 @@ class Http
         };
     }
 
-    public function post(string $uri, array $payload): array
+    public function post(string $uri, array $payload, bool $internal = false): array
     {
-        $response = $this->client->post(
+        $client = $internal
+            ? $this->client->withHeaders(['X-Internal-Api-Key' => Config::get('app.config.internal_key')])
+            : $this->client;
+
+        $response = $client->post(
             $this->baseUri() . $uri,
             $payload
         );

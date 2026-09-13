@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Yatzy Game Scorer by Costs to Expect">
         <meta name="author" content="Dean Blackborough">
+        <meta name="robots" content="noindex,follow">
         <title>Yatzy Game Scorer: Sign-in</title>
         <link rel="icon" sizes="48x48" href="{{ asset('images/favicon.ico') }}">
         <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon.png') }}">

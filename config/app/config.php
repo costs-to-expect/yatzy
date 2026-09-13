@@ -8,9 +8,10 @@ return [
     'cache' => env('APP_CACHE', false),
     'item_type_id' => env('ITEM_TYPE_ID'),
     'item_subtype_id' => env('ITEM_SUBTYPE_ID'),
+    'internal_key' => env('COSTS_TO_EXPECT_INTERNAL_API_KEY'),
     'error_email' => env('ERROR_EMAIL'),
     'cookie_user' => env('SESSION_NAME_USER'),
     'cookie_bearer' => env('SESSION_NAME_BEARER'),
-    'version' => '1.04.0',
-    'release_date' => '12th October 2023'
+    'version' => '1.05.0',
+    'release_date' => '13th September 2026'
 ];
