@@ -2,6 +2,13 @@
 
 The complete changelog for the Costs to Expect REST API, our changelog follows the format defined at https://keepachangelog.com/en/1.0.0/
 
+## [1.05.0] - [2026-09-13]
+### Added
+- Composer available inside the app container.
+### Changed
+- Registration now authenticates to the API with an internal API key, matching the API's new internal-only auth endpoints.
+- Minor SEO improvements to the landing page and noindexed the auth/utility pages.
+
 ## [1.04.0] - [2023-10-12]
 ### Added
 - Added full account deletion.

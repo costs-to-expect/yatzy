@@ -3,14 +3,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Yatzy Game Scorer by Costs to Expect">
+    <meta name="description" content="Score your Yatzy games online. Track upper and lower section scores, bonuses and totals for every player, with shareable score sheets so no one has to be the designated scorer.">
     <meta name="author" content="Dean Blackborough">
-    <title>Yatzy: Game Scorer</title>
+    <title>Yatzy Game Scorer: Online Yatzy Score Sheets</title>
+    <link rel="canonical" href="{{ url('/') }}">
 
     <link rel="icon" sizes="48x48" href="{{ asset('images/favicon.ico') }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon.png') }}">
     <link href="{{ asset('css/theme.css') }}" rel="stylesheet"/>
     <meta name="theme-color" content="#892b7c">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="Yatzy Game Scorer: Online Yatzy Score Sheets">
+    <meta property="og:description" content="Score your Yatzy games online. Track upper and lower section scores, bonuses and totals for every player, with shareable score sheets so no one has to be the designated scorer.">
+    <meta property="og:image" content="{{ asset('images/card.png') }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yatzy Game Scorer: Online Yatzy Score Sheets">
+    <meta name="twitter:description" content="Score your Yatzy games online. Track upper and lower section scores, bonuses and totals for every player, with shareable score sheets so no one has to be the designated scorer.">
+    <meta name="twitter:image" content="{{ asset('images/card.png') }}">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
