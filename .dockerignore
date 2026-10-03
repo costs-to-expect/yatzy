@@ -1,1 +1,6 @@
 vendor
+.git
+.idea
+.env
+.docker/mysql/data
+storage/logs/*.log

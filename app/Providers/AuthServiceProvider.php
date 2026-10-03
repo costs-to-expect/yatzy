@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
                 'cookie_user' => $config['cookie_user']
             ];
 
-            return new Guard(new UserProvider($auth_config), $auth_config, $app['request']);
+            return new Guard(new UserProvider($auth_config, $app['request']), $auth_config, $app['request']);
         });
 
         $this->registerPolicies();

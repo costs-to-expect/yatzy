@@ -84,6 +84,7 @@ class Controller extends BaseController
 
                         return true;
                     }
+                    abort($create_resource_response['status'], $create_resource_response['content']);
                 }
                 abort($create_resource_type_response['status'], $create_resource_type_response['content']);
             }

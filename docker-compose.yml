@@ -1,4 +1,3 @@
-version: '3'
 services:
     yatzy.app:
         build:

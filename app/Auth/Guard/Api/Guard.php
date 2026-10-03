@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
+use Throwable;
 
 /**
  * @author Dean Blackborough <dean@g3d-development.com>
@@ -34,7 +35,7 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
         $this->user = null;
     }
 
-    public function attempt(array $credentials, bool $remember_me): bool
+    public function attempt(array $credentials, bool $remember_me = false): bool
     {
         return $this->validate($credentials, $remember_me);
     }
@@ -46,8 +47,7 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
 
     public function check(): bool
     {
-        return $this->request->hasCookie($this->config['cookie_bearer']) === true &&
-            $this->request->hasCookie($this->config['cookie_user']) === true &&
+        return $this->request->cookie($this->config['cookie_bearer']) !== null &&
             $this->request->cookie($this->config['cookie_user']) !== null;
     }
 
@@ -58,8 +58,23 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
 
     public function user(): ?Authenticatable
     {
-        return $this->user ??
-            $this->user_provider->retrieveById($this->request->cookie($this->config['cookie_user']));
+        if ($this->user instanceof Authenticatable) {
+            return $this->user;
+        }
+
+        $user_id = $this->request->cookie($this->config['cookie_user']);
+        if ($user_id === null) {
+            return null;
+        }
+
+        $user = $this->user_provider->retrieveById($user_id);
+        if ($user instanceof Authenticatable) {
+            $this->setUser($user);
+
+            return $this->user;
+        }
+
+        return null;
     }
 
     public function id()
@@ -73,7 +88,8 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
 
     public function validate(array $credentials = [], bool $remember_me = false): bool
     {
-        $api = new Service($this->request->cookie($this->config['cookie_bearer']));
+        // The sign-in route is public, there is no bearer to send
+        $api = new Service();
 
         if (array_key_exists('email', $credentials) === false || $credentials['email'] === null) {
             $this->errors['email']['errors'] = [
@@ -117,12 +133,12 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
         }
 
         if ($response['status'] === 422) {
-            $this->errors = ['fields'];
+            $this->errors = $response['fields'];
             return false;
         }
 
         if ($response['status'] === 401) {
-            $this->errors = ['email' => [$response['content']]];
+            $this->errors = ['email' => ['errors' => [$response['content']]]];
             return false;
         }
 
@@ -136,12 +152,31 @@ class Guard implements \Illuminate\Contracts\Auth\Guard
         return $this;
     }
 
-    public function logout(): void
+    /**
+     * Forget the player and, by default, revoke their bearer token in the API so it can't be used again
+     *
+     * Pass false when something still has to use the token after the player has gone, for example a
+     * queued account deletion, the cookies are still forgotten.
+     */
+    public function logout(bool $revoke_api_token = true): void
     {
+        $bearer = $this->request->cookie($this->config['cookie_bearer']);
+
+        if ($revoke_api_token === true && $bearer !== null) {
+            try {
+                (new Service($bearer))->authLogout();
+            } catch (Throwable $e) {
+                // Never stop a player signing out, the token expires in time even if we can't revoke it now
+                report($e);
+            }
+        }
+
         $config = Config::get('app.config');
 
         Cookie::queue(Cookie::forget($config['cookie_bearer']));
         Cookie::queue(Cookie::forget($config['cookie_user']));
+
+        $this->user = null;
 
         Session::flush();
     }
