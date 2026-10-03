@@ -3,3 +3,4 @@
 @section('title', __('Too Many Requests'))
 @section('code', '429')
 @section('message', __('Too Many Requests'))
+@section('detail', __("Slow down a little and try again in a moment."))

@@ -33,6 +33,8 @@
         }
     },
     "scripts": {
+        "css": "bin/css",
+        "css-watch": "bin/css --watch",
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"

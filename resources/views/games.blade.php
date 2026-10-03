@@ -1,94 +1,67 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Yatzy Game Scorer by Costs to Expect">
-        <meta name="author" content="Dean Blackborough">
-        <title>Yatzy Game Scorer: Games</title>
-        <link rel="icon" sizes="48x48" href="{{ asset('images/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon.png') }}">
-        <link href="{{ asset('css/theme.css') }}" rel="stylesheet" />
-    </head>
-    <body>
-        <x-offcanvas active="games" />
-
-        <div class="col-lg-8 mx-auto p-3 py-md-5">
-            <main>
-                <h2>Complete Games</h2>
-
-                <p class="lead">Start a new <a href="{{ route('game.create.view') }}">game</a>.</p>
-
-                <hr />
-
-                @if (count($games) > 0)
-
-                    <nav aria-label="Page pagination">
-                        <ul class="pagination pagination-sm justify-content-center">
-                            @if ($pagination['previous'])
-                            <li class="page-item">
-                                <a class="page-link" href="{{ route('games', ['offset' => max($pagination['offset'] - $pagination['limit'], 0), 'limit' => $pagination['limit']]) }}">Previous</a>
-                            </li>
-                            @else
-                            <li class="page-item disabled">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            @endif
-                            <li class="page-item">
-                                <span class="page-link">
-                                    {{ $pagination['offset'] + 1 }} -
-                                    {{ min($pagination['offset'] + $pagination['limit'], $pagination['total']) }}
-                                    of
-                                    {{ $pagination['total'] }}
-                                </span>
-                            </li>
-                            @if ($pagination['next'])
-                            <li class="page-item">
-                                <a class="page-link" href="{{ route('games', ['offset' => $pagination['offset'] + $pagination['limit'], 'limit' => $pagination['limit']]) }}">Next</a>
-                            </li>
-                            @else
-                            <li class="page-item disabled">
-                                <a class="page-link">Next</a>
-                            </li>
-                            @endif
-                        </ul>
-                    </nav>
-
-                    <ul class="list-unstyled">
-                        @foreach ($games as $__game)
-                            <li class="mb-3">
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-controller" viewBox="0 0 16 16">
-                                        <path d="M11.5 6.027a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm-1.5 1.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2.5-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm-1.5 1.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm-6.5-3h1v1h1v1h-1v1h-1v-1h-1v-1h1v-1z"/>
-                                        <path d="M3.051 3.26a.5.5 0 0 1 .354-.613l1.932-.518a.5.5 0 0 1 .62.39c.655-.079 1.35-.117 2.043-.117.72 0 1.443.041 2.12.126a.5.5 0 0 1 .622-.399l1.932.518a.5.5 0 0 1 .306.729c.14.09.266.19.373.297.408.408.78 1.05 1.095 1.772.32.733.599 1.591.805 2.466.206.875.34 1.78.364 2.606.024.816-.059 1.602-.328 2.21a1.42 1.42 0 0 1-1.445.83c-.636-.067-1.115-.394-1.513-.773-.245-.232-.496-.526-.739-.808-.126-.148-.25-.292-.368-.423-.728-.804-1.597-1.527-3.224-1.527-1.627 0-2.496.723-3.224 1.527-.119.131-.242.275-.368.423-.243.282-.494.575-.739.808-.398.38-.877.706-1.513.773a1.42 1.42 0 0 1-1.445-.83c-.27-.608-.352-1.395-.329-2.21.024-.826.16-1.73.365-2.606.206-.875.486-1.733.805-2.466.315-.722.687-1.364 1.094-1.772a2.34 2.34 0 0 1 .433-.335.504.504 0 0 1-.028-.079zm2.036.412c-.877.185-1.469.443-1.733.708-.276.276-.587.783-.885 1.465a13.748 13.748 0 0 0-.748 2.295 12.351 12.351 0 0 0-.339 2.406c-.022.755.062 1.368.243 1.776a.42.42 0 0 0 .426.24c.327-.034.61-.199.929-.502.212-.202.4-.423.615-.674.133-.156.276-.323.44-.504C4.861 9.969 5.978 9.027 8 9.027s3.139.942 3.965 1.855c.164.181.307.348.44.504.214.251.403.472.615.674.318.303.601.468.929.503a.42.42 0 0 0 .426-.241c.18-.408.265-1.02.243-1.776a12.354 12.354 0 0 0-.339-2.406 13.753 13.753 0 0 0-.748-2.295c-.298-.682-.61-1.19-.885-1.465-.264-.265-.856-.523-1.733-.708-.85-.179-1.877-.27-2.913-.27-1.036 0-2.063.091-2.913.27z"/>
-                                    </svg>
-                                    <a href="{{ route('game.show', ['game_id' => $__game['id']]) }}" class="ps-2">
-                                        Overview
-                                    </a>
-                                </span>
-
-                                <ul class="list-unstyled mb-2">
-                                    @foreach ($__game['game']['scores'] as $__closed_game_player)
-                                        <li>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                            </svg>
-                                            {{ $__closed_game_player['player_name'] }}
-                                            ({{ $__closed_game_player['score'] }} pts)
-
-                                            <a href="{{ route('game.score-sheet', ['game_id' => $__game['id'], 'player_id' => $__closed_game_player['player_id']]) }}">[Score sheet]</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-primary">You haven't played any games.</p>
-                @endif
-
-            </main>
-            <x-footer />
+@php use App\Support\GameBoard; @endphp
+<x-layouts.app :title="config('app.game.name').' Game Scorer: Games'" active="games">
+    <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+            <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Games</h1>
+            <p class="mt-1 text-stone-600">Every game you have finished, newest first.</p>
         </div>
-        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.js') }}" defer></script>
-    </body>
-</html>
+        <a href="{{ route('game.create.view') }}" class="btn btn-primary"><x-icon name="plus" class="h-5 w-5" />New game</a>
+    </div>
+
+    @if (count($games) > 0)
+        <ul class="mt-6 space-y-3">
+            @foreach ($games as $__game)
+                @php
+                    $scores = $__game['game']['scores'] ?? [];
+                    $winner = $__game['game']['winner'] ?? ($scores[0] ?? null);
+                    $when = GameBoard::when(GameBoard::startedAt($__game));
+                @endphp
+                <li class="card-list">
+                    <a href="{{ route('game.show', ['game_id' => $__game['id']]) }}" class="flex items-center gap-3 bg-stone-50/60 px-4 py-3.5 hover:bg-stone-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-600">
+                        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700"><x-icon name="trophy" class="h-5 w-5" /></span>
+                        <span class="min-w-0 flex-1">
+                            <span class="block truncate text-sm font-bold">@if ($winner){{ $winner['player_name'] }} <span class="font-medium text-stone-600">won with</span> {{ $winner['score'] }}@else Game overview @endif</span>
+                            @if ($when)<span class="block truncate text-xs text-stone-600">{{ $when }}</span>@endif
+                        </span>
+                        <span class="text-sm font-bold text-brand-700">Overview</span>
+                        <span class="text-stone-400"><x-icon name="chevron-right" class="h-5 w-5" /></span>
+                    </a>
+                    @foreach ($scores as $__closed_game_player)
+                        <div class="flex items-center gap-3 px-4 py-2.5">
+                            <span class="w-5 text-center text-sm font-bold text-stone-500">{{ $loop->iteration }}</span>
+                            <span class="min-w-0 flex-1 truncate font-semibold">{{ $__closed_game_player['player_name'] }}</span>
+                            <span class="text-lg font-extrabold tabular-nums">{{ $__closed_game_player['score'] }}<span class="sr-only"> points</span></span>
+                            <a href="{{ route('game.score-sheet', ['game_id' => $__game['id'], 'player_id' => $__closed_game_player['player_id']]) }}" class="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-bold text-brand-700 hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-brand-600">Score sheet<span class="sr-only"> for {{ $__closed_game_player['player_name'] }}</span></a>
+                        </div>
+                    @endforeach
+                </li>
+            @endforeach
+        </ul>
+
+        <nav class="mt-6 flex items-center justify-between gap-3" aria-label="Page pagination">
+            @if ($pagination['previous'])
+                <a href="{{ route('games', ['offset' => max($pagination['offset'] - $pagination['limit'], 0), 'limit' => $pagination['limit']]) }}" class="btn btn-secondary"><x-icon name="chevron-left" class="h-5 w-5" />Previous</a>
+            @else
+                <span class="btn btn-quiet pointer-events-none opacity-50" aria-disabled="true"><x-icon name="chevron-left" class="h-5 w-5" />Previous</span>
+            @endif
+            <p class="text-sm font-semibold text-stone-600">
+                {{ $pagination['offset'] + 1 }} -
+                {{ min($pagination['offset'] + $pagination['limit'], $pagination['total']) }}
+                of
+                {{ $pagination['total'] }}
+            </p>
+            @if ($pagination['next'])
+                <a href="{{ route('games', ['offset' => $pagination['offset'] + $pagination['limit'], 'limit' => $pagination['limit']]) }}" class="btn btn-secondary">Next<x-icon name="chevron-right" class="h-5 w-5" /></a>
+            @else
+                <span class="btn btn-quiet pointer-events-none opacity-50" aria-disabled="true">Next<x-icon name="chevron-right" class="h-5 w-5" /></span>
+            @endif
+        </nav>
+    @else
+        <div class="card mt-6 text-center">
+            <div class="flex justify-center"><x-art /></div>
+            <h2 class="mt-4 text-xl font-extrabold tracking-tight">You haven&rsquo;t played any games.</h2>
+            <p class="mt-1 text-stone-600">When you finish a game it shows up here, with who won.</p>
+            <a href="{{ route('game.create.view') }}" class="btn btn-primary mt-5">Start a game</a>
+        </div>
+    @endif
+</x-layouts.app>

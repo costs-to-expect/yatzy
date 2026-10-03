@@ -1,49 +1,28 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Yatzy Game Scorer by Costs to Expect">
-        <meta name="author" content="Dean Blackborough">
-        <title>Yatzy Game Scorer: Players</title>
-        <link rel="icon" sizes="48x48" href="{{ asset('images/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon.png') }}">
-        <link href="{{ asset('css/theme.css') }}" rel="stylesheet" />
-    </head>
-    <body>
-        <x-offcanvas active="players" />
-
-        <div class="col-lg-8 mx-auto p-3 py-md-5">
-            <main>
-                <h2>Players</h2>
-
-                <p class="lead">Add a new <a href="{{ route('player.create.view') }}">player</a>.</p>
-
-                <p>Select a player for a detailed breakdown* of their Yatzy games.</p>
-
-                <p class="text-muted small">* Statistics coming soon(tm)</p>
-
-                @if (count($players) > 0)
-                    <ul class="list-unstyled">
-                        @foreach ($players as $__player)
-                            <li>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                </svg>
-                                <a href="" class="ps-2">{{ $__player['name'] }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-primary">You haven't added any players yet, you need to
-                        <a href="#">add</a>
-                        some players before you can start a game.
-                    </p>
-                @endif
-
-            </main>
-            <x-footer />
+<x-layouts.app :title="config('app.game.name').' Game Scorer: Players'" active="players">
+    <div class="mx-auto max-w-3xl">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Players</h1>
+                <p class="mt-1 text-stone-600">Everyone who can play in a game. Statistics are coming soon.</p>
+            </div>
+            <a href="{{ route('player.create.view') }}" class="btn btn-primary"><x-icon name="user-plus" class="h-5 w-5" />New player</a>
         </div>
-        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.js') }}" defer></script>
-    </body>
-</html>
+
+        @if (count($players) > 0)
+            <ul class="card-list mt-6">
+                @foreach ($players as $__player)
+                    <li class="flex items-center gap-3 px-4 py-3">
+                        <x-avatar :name="$__player['name']" :index="$tones[$__player['id']] ?? 0" class="h-10 w-10 text-base" />
+                        <span class="min-w-0 flex-1 truncate font-bold">{{ $__player['name'] }}</span>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <div class="card mt-6 text-center">
+                <h2 class="text-xl font-extrabold tracking-tight">You haven&rsquo;t added any players yet.</h2>
+                <p class="mt-1 text-stone-600">You need some players before you can start a game.</p>
+                <a href="{{ route('player.create.view') }}" class="btn btn-primary mt-5">Add a player</a>
+            </div>
+        @endif
+    </div>
+</x-layouts.app>

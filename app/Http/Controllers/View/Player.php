@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\View;
 
 use App\Http\Controllers\Controller;
+use App\Support\GameBoard;
 use Illuminate\Http\Request;
 
 /**
@@ -33,6 +34,7 @@ class Player extends Controller
             'players',
             [
                 'players' => $players,
+                'tones' => GameBoard::tones($players),
             ]
         );
     }

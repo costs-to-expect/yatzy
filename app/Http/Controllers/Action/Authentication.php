@@ -9,6 +9,7 @@ use App\Api\Service;
 use App\Http\Controllers\Controller;
 use App\Models\PartialRegistration;
 use App\Notifications\CreatePassword;
+use App\Notifications\ForgotPassword;
 use App\Notifications\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,6 +69,30 @@ class Authentication extends Controller
             ->with('authentication.failed', $response['content']);
     }
 
+    public function createNewPassword(Request $request)
+    {
+        $payload = $request->only(['encrypted_token', 'email', 'password', 'password_confirmation']);
+
+        $response = (new Service())->createNewPassword($payload);
+
+        if ($response['status'] === 204) {
+            return redirect()->route('create-new-password.confirmation');
+        }
+
+        $parameters = [
+            'encrypted_token' => $request->input('encrypted_token'),
+            'email' => $request->input('email')
+        ];
+
+        if ($response['status'] === 422) {
+            return redirect()->route('create-new-password.view', $parameters)
+                ->with('authentication.errors', $response['fields']);
+        }
+
+        return redirect()->route('create-new-password.view', $parameters)
+            ->with('authentication.failed', $response['content']);
+    }
+
     public function deleteYatzyAccount(Request $request, DeleteYatzyAccount $action): RedirectResponse
     {
         $this->bootstrap($request);
@@ -106,6 +131,42 @@ class Authentication extends Controller
         );
 
         return redirect()->route('account', ['job'=>'delete-account']);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $email = $request->input('email');
+
+        if ($email === null) {
+            return redirect()->route('forgot-password.view')
+                ->with('authentication.errors', ['email' => ['errors' => ['Please enter your email address']]]);
+        }
+
+        $response = (new Service())->forgotPassword($email);
+
+        if ($response['status'] === 201) {
+            $parameters = $response['content']['uris']['create-new-password']['parameters'];
+
+            Notification::route('mail', $email)
+                ->notify(new ForgotPassword($parameters['email'], $parameters['encrypted_token']));
+
+            return redirect()->route('forgot-password.confirmation');
+        }
+
+        if ($response['status'] === 422) {
+            return redirect()->route('forgot-password.view')
+                ->withInput()
+                ->with('authentication.errors', $response['fields']);
+        }
+
+        if ($response['status'] === 404) {
+            return redirect()->route('forgot-password.view')
+                ->withInput()
+                ->with('authentication.errors', ['email' => ['errors' => [$response['content']]]]);
+        }
+
+        return redirect()->route('forgot-password.view')
+            ->with('authentication.failed', $response['content']);
     }
 
     public function register(Request $request)

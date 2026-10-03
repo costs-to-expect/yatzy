@@ -15,7 +15,7 @@ Route::get(
 Route::post(
     '/create-password',
     [\App\Http\Controllers\Action\Authentication::class, 'createPassword']
-)->name('create-password.action');
+)->name('create-password.process.action');
 
 Route::get(
     '/',
@@ -41,6 +41,36 @@ Route::post(
     '/register',
     [\App\Http\Controllers\Action\Authentication::class, 'register']
 )->name('register.action');
+
+Route::get(
+    '/forgot-password',
+    [Authentication::class, 'forgotPassword']
+)->name('forgot-password.view');
+
+Route::post(
+    '/forgot-password',
+    [\App\Http\Controllers\Action\Authentication::class, 'forgotPassword']
+)->name('forgot-password.action');
+
+Route::get(
+    '/forgot-password-confirmation',
+    [Authentication::class, 'forgotPasswordConfirmation']
+)->name('forgot-password.confirmation');
+
+Route::get(
+    '/create-new-password',
+    [Authentication::class, 'createNewPassword']
+)->name('create-new-password.view');
+
+Route::post(
+    '/create-new-password',
+    [\App\Http\Controllers\Action\Authentication::class, 'createNewPassword']
+)->name('create-new-password.action');
+
+Route::get(
+    '/create-new-password-confirmation',
+    [Authentication::class, 'createNewPasswordConfirmation']
+)->name('create-new-password.confirmation');
 
 Route::get(
     '/registration-complete',
@@ -76,11 +106,6 @@ Route::get(
     '/public/game/{token}/player-scores',
     [Share::class, 'playerScores']
 )->name('public.player-scores');
-
-Route::get(
-    '/public/game/{token}/bonus',
-    [Share::class, 'playerBonus']
-)->name('public.bonus');
 
 Route::group(
     [
@@ -144,12 +169,8 @@ Route::group(
             [\App\Http\Controllers\Action\Game::class, 'scoreUpper']
         )->name('game.score-upper.action');
 
-        Route::get(
-            '/game/{game_id}/player/{player_id}/bonus',
-            [Game::class, 'playerBonus']
-        )->name('game.player.bonus');
-
-        Route::get(
+        // A POST, removing a player deletes their score sheet, a link or a prefetch must never do that
+        Route::post(
             '/game/{game_id}/player/{player_id}/delete',
             [\App\Http\Controllers\Action\Game::class, 'deleteGamePlayer']
         )->name('game.player.delete');

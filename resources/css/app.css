@@ -1,0 +1,209 @@
+/*
+ * Only the places listed below are scanned for classes (source(none) turns off Tailwind's project wide detection), so
+ * the CSS holds what the pages use and nothing else.
+ */
+@import 'tailwindcss' source(none);
+
+@source '../../resources/**/*.blade.php';
+@source '../../app/View/Components';
+@source '../../public/js';
+
+/*
+ * Figtree, self-hosted (SIL Open Font License). A friendly geometric sans with real tabular figures, which the
+ * scores need. Only the files for the characters a page uses are downloaded, names such as "Łukasz" use latin-ext.
+ */
+@font-face {
+    font-family: 'Figtree';
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
+    src: url('/fonts/figtree-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
+    src: url('/fonts/figtree-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme {
+    --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+    /*
+     * The game scorer colour, a deep teal (OKLCH hue 200). Every scorer (Yatzy, then Scrabble, Carcassonne) uses
+     * it, a game is told apart by its icon and name, not its colour. Text on a white or paper background should
+     * use 700 or darker (5.7:1 and up), 600 is for large text, rings and fills, white on 600 is only 4:1.
+     */
+    --color-brand-50: #EEF9FA;
+    --color-brand-100: #D8F5F6;
+    --color-brand-200: #B1ECEF;
+    --color-brand-300: #82E0E5;
+    --color-brand-400: #41CAD1;
+    --color-brand-500: #03B1B8;
+    --color-brand-600: #038D93;
+    --color-brand-700: #057176;
+    --color-brand-800: #04585C;
+    --color-brand-900: #034649;
+    --color-brand-950: #002A2C;
+
+    /*
+     * The Costs to Expect purple. These apps are Costs to Expect apps, so the purple is how the app says so, in the
+     * footer and on the account pages, and nowhere else. Teal and gold (amber) sit 120 degrees either side of it on
+     * the colour wheel, so the three belong together.
+     */
+    --color-cte-50: #FBF2FA;
+    --color-cte-500: #8A1786;
+    --color-cte-700: #6B0B68;
+
+    /* The page background, a warm off white that lets white cards read as paper. */
+    --color-paper: #F7F5F0;
+
+    --shadow-card: 0 1px 2px rgb(28 25 23 / 0.04), 0 4px 16px rgb(28 25 23 / 0.05);
+    --shadow-lift: 0 2px 4px rgb(28 25 23 / 0.05), 0 12px 28px rgb(28 25 23 / 0.1);
+
+    --animate-sheet-in: sheet-in 0.22s ease-out;
+
+    @keyframes sheet-in {
+        from {
+            opacity: 0;
+            transform: translateY(1rem);
+        }
+    }
+}
+
+/*
+ * Browsers give <select> its own native height/padding for the dropdown
+ * arrow, which doesn't line up with <input>'s box model even with identical
+ * classes - replace it with a fixed-size custom arrow so every form field
+ * in a row is the same height.
+ */
+@layer base {
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2378716c' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.5rem center;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+}
+
+/*
+ * The shared look. These are plain CSS classes (not Blade components) so the JavaScript can build the same
+ * controls, and every page, form and dialog uses the same buttons, fields and cards.
+ */
+@layer base {
+    /* Anchors and buttons that sit under the sticky totals or the tab bar scroll clear of them */
+    html {
+        scroll-padding-top: 8rem;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* A native <dialog> is the sheet: it is a bottom sheet on a phone and a centred dialog from sm up */
+    dialog.sheet {
+        @apply m-0 mt-auto max-h-[92dvh] w-full max-w-none overflow-y-auto rounded-t-3xl bg-white p-0 text-stone-900 shadow-2xl motion-safe:open:animate-sheet-in sm:m-auto sm:max-w-md sm:rounded-3xl;
+    }
+
+    dialog.sheet::backdrop {
+        @apply bg-stone-900/40;
+    }
+}
+
+@layer components {
+    .form-control {
+        @apply block w-full rounded-xl border-0 bg-white px-3.5 py-3 text-base text-stone-900 shadow-sm ring-1 ring-inset ring-stone-300 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-600;
+    }
+
+    .form-control-error {
+        @apply ring-red-500 focus:ring-red-500;
+    }
+
+    .form-label {
+        @apply mb-1.5 block text-sm font-bold text-stone-800;
+    }
+
+    .form-help {
+        @apply mt-1.5 text-sm text-stone-600;
+    }
+
+    .form-error {
+        @apply mt-1.5 flex items-start gap-1.5 text-sm font-semibold text-red-700;
+    }
+
+    .card {
+        @apply rounded-3xl bg-white p-5 shadow-card ring-1 ring-stone-200/70 sm:p-7;
+    }
+
+    .card-list {
+        @apply divide-y divide-stone-100 overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-stone-200/70;
+    }
+
+    .btn {
+        @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed motion-reduce:transition-none;
+    }
+
+    .btn-primary {
+        @apply bg-brand-700 text-white shadow-sm hover:bg-brand-800 focus-visible:outline-brand-600 disabled:bg-stone-100 disabled:text-stone-500 disabled:shadow-none;
+    }
+
+    .btn-secondary {
+        @apply bg-white text-stone-800 ring-1 ring-inset ring-stone-300 hover:bg-stone-50 focus-visible:outline-brand-600;
+    }
+
+    .btn-quiet {
+        @apply bg-stone-100 text-stone-800 hover:bg-stone-200 focus-visible:outline-brand-600;
+    }
+
+    .btn-soft {
+        @apply bg-brand-50 text-brand-800 hover:bg-brand-100 focus-visible:outline-brand-600;
+    }
+
+    .btn-danger {
+        @apply bg-red-600 text-white shadow-sm hover:bg-red-700 focus-visible:outline-red-600;
+    }
+
+    .btn-danger-soft {
+        @apply bg-red-50 text-red-800 hover:bg-red-100 focus-visible:outline-red-600;
+    }
+
+    .btn-block {
+        @apply w-full;
+    }
+
+    .btn-link {
+        @apply -mx-3 inline-flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm font-bold text-brand-700 hover:bg-brand-50 hover:text-brand-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600;
+    }
+
+    .text-link {
+        @apply font-bold text-brand-700 underline decoration-brand-300 underline-offset-2 hover:text-brand-900 hover:decoration-brand-700;
+    }
+
+    /* A player to pick for the next game: a checkbox you can see and tap, never colour alone */
+    .chip {
+        @apply inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full bg-white py-2 pl-2 pr-4 text-sm font-bold text-stone-800 ring-1 ring-inset ring-stone-300 transition hover:bg-stone-50 motion-reduce:transition-none;
+    }
+
+    .alert {
+        @apply flex items-start gap-3 rounded-2xl px-4 py-3.5 text-sm;
+    }
+
+    .alert-error {
+        @apply bg-red-50 text-red-900 ring-1 ring-inset ring-red-200;
+    }
+
+    .alert-warning {
+        @apply bg-amber-50 text-amber-900 ring-1 ring-inset ring-amber-200;
+    }
+
+    .alert-success {
+        @apply bg-emerald-50 text-emerald-900 ring-1 ring-inset ring-emerald-200;
+    }
+
+    .alert-info {
+        @apply bg-brand-50 text-stone-800 ring-1 ring-inset ring-brand-100;
+    }
+}

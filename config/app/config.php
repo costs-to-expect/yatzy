@@ -15,6 +15,4 @@ return [
     // Undo, change and clear a score. They remove a key from the stored score sheet, which needs the API to replace
     // the sheet it is sent, switch them on once that has been confirmed against the API
     'score_corrections' => (bool) env('SCORE_CORRECTIONS', false),
-    'version' => '1.05.0',
-    'release_date' => '13th September 2026'
 ];

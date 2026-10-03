@@ -106,6 +106,47 @@ class Authentication extends Controller
         );
     }
 
+    public function createNewPassword(Request $request)
+    {
+        $encrypted_token = $request->query('encrypted_token');
+        $email = $request->query('email');
+
+        if ($encrypted_token === null || $email === null) {
+            abort(404, 'Password cannot be created, forgot password parameters not found');
+        }
+
+        return view(
+            'create-new-password',
+            [
+                'encrypted_token' => $encrypted_token,
+                'email' => $email,
+                'errors' => session()->get('authentication.errors'),
+                'failed' => session()->get('authentication.failed'),
+            ]
+        );
+    }
+
+    public function createNewPasswordConfirmation()
+    {
+        return view('create-new-password-confirmation');
+    }
+
+    public function forgotPassword()
+    {
+        return view(
+            'forgot-password',
+            [
+                'errors' => session()->get('authentication.errors'),
+                'failed' => session()->get('authentication.failed'),
+            ]
+        );
+    }
+
+    public function forgotPasswordConfirmation()
+    {
+        return view('forgot-password-confirmation');
+    }
+
     public function register()
     {
         return view(
