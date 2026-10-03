@@ -2,7 +2,7 @@
 
 The complete changelog for the Costs to Expect REST API, our changelog follows the format defined at https://keepachangelog.com/en/1.0.0/
 
-## [Unreleased]
+## [1.06.0] - [2026-10-03]
 ### Added
 - A new landing page. A score sheet to try right in the hero (the real rows, the real bonus tracker and tips, nothing is
   sent anywhere), then "How a game night goes", four steps with one phone that changes as they scroll past (a picture
@@ -31,13 +31,16 @@ The complete changelog for the Costs to Expect REST API, our changelog follows t
 - GitHub Actions runs the tests on PHP 8.2, 8.3, 8.4 and 8.5 for every push and pull request.
 - Tailwind CSS v4 through the standalone CLI (`bin/css`), with a teal theme and the Figtree typeface, self-hosted in
   `public/fonts`.
+- `.agents/UPGRADE_REVIEW.md`, what the upgrade checked and what it did not, the bugs it found and what to know before
+  deploying.
 ### Changed
 - The large straight is worth 20 (2-3-4-5-6), as in the standard rules, it was 30. Games already played keep the 30 they
   stored.
 - Updated to Laravel 12 and PHPUnit 11, the app still runs on PHP 8.2.
 - Share links store the owner's bearer token encrypted with the application key, the migration encrypts the existing
-  links and changes the column from `json` to `text`. Changing `APP_KEY` makes the links of games in progress unreadable,
-  they only live until the game is completed.
+  links and changes the column from `json` to `text`. Run it as part of the deploy, before anyone starts a game, MySQL
+  refuses a new link while the column is still `json`. Changing `APP_KEY` makes the links of games in progress
+  unreadable, they only live until the game is completed.
 - The queued account deletion jobs are encrypted, they carry the player's bearer token, and they revoke the token in
   the API once the deletion has been requested, it stayed valid until it expired.
 - Removing a player from a game is a POST, it deleted a score sheet from a link.
@@ -47,8 +50,10 @@ The complete changelog for the Costs to Expect REST API, our changelog follows t
   has a version for each so a deployed app never serves stale files.
 - The Docker image no longer includes `.env` and `.git`, and rebuilds quicker when only code changes.
 - The version and release date moved to `config/app/version.php`, alongside the CSS version.
-- Updated the README, `composer install`, the queue worker, the score sheet rules and the environment variables were
-  missing.
+- The tests send their log to the null channel, the ones that exercise a failure wrote their stack traces into the
+  development log.
+- Updated the README, `composer install`, the queue worker, the score sheet rules, the environment variables and the
+  address to open the app at (the session cookie is tied to it, signing in from another address is a 419) were missing.
 ### Removed
 - Bootstrap, the SCSS source, `public/package.json`, `public/yarn.lock` and axios, the app needs no Node or yarn.
 - Laravel Sanctum, the skeleton `User` model and factory, `routes/api.php`, `routes/channels.php`, the broadcast
