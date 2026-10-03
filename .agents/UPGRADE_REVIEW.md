@@ -112,6 +112,9 @@ local API until it is.
    The local database only holds sessions, cache, jobs and share links.
 2. **Before deploying the share link migration**, run `php artisan migrate --pretend` and take a `mysqldump` of `share_token`
    (it only holds links for games in progress). Changing `APP_KEY` later makes the links of games in progress unreadable.
+   **Run the migration as part of the deploy, before anyone starts a game.** Links already stored are read without it, but
+   while the column is still `json` MySQL refuses a new, encrypted, link (error 3140) and no game can be created. This was
+   found, and checked on MySQL 8.0, when a local copy was running the new code with the migration still pending.
 3. **`docker-compose.yml` hands `DB_ROOT_PASSWORD` to MySQL and `.env.example` does not define it**, so a fresh
    `cp .env.example .env` leaves the MySQL container unable to start ("password option is not specified") until you add it.
 4. **Undo, change and clear a score are built and switched off** (`SCORE_CORRECTIONS=false`). Removing a combination only

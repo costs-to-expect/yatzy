@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Schema;
  * act as the owner until the game was completed. Encrypt them with the application key.
  *
  * Encrypted values are not JSON, so the json column becomes text (MySQL refuses anything else in a json column).
- * The ShareToken model reads either form, so a row that is still plain JSON keeps working.
+ * The ShareToken model reads either form, so a row that is still plain JSON keeps working, but nothing new can be
+ * written until this has run, see App\Casts\EncryptedParameters.
  *
  * Changing APP_KEY makes the stored parameters unreadable, the links of games in progress stop working (links only
  * live until the game is completed) so change it between games.

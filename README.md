@@ -44,6 +44,13 @@ After generating the key, you need to restart your containers, so run down and u
 * $ `docker exec yatzy.app php artisan migrate`
 * $ `docker exec yatzy.app php artisan queue:work`
 
+Run `php artisan migrate` again whenever you pull, the share links need it (see **Share links**).
+
+Open the app at the address in `APP_URL` (`http://yatzy.game-scorer.local`, add `127.0.0.1 yatzy.game-scorer.local` to your
+hosts file). `SESSION_DOMAIN` ties the session cookie to that address, so signing in from any other (`localhost`, the
+Yahtzee scorer's address, which also uses port 80) fails with a 419 Page Expired, the browser throws the cookie away. Set
+`SESSION_DOMAIN=null` if you want it to work on any address.
+
 The queue worker sends the emails (create password, forgot password, account deletion), leave it running while you 
 develop, nothing is sent without it.
 
@@ -152,6 +159,10 @@ completed or deleted. The link is a token that the app maps back to the game, th
 token**, so the parameters are encrypted with `APP_KEY` in the `share_token` table (`App\Casts\EncryptedParameters`). Someone
 who can read the table but not the key learns nothing. Changing `APP_KEY` makes the links of games in progress
 unreadable, so change it between games. A link stops working when the owner signs out (the API revokes the token).
+
+The `share_token.parameters` column changes from `json` to `text` in a migration (`encrypt_share_token_parameters`). Run
+it as part of the deploy, before anyone starts a game: links already stored are still read without it, but MySQL refuses
+to store a new, encrypted, link in the `json` column, so no game can be created until it has run.
 
 ## PHP and Laravel versions
 

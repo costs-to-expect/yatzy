@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Crypt;
  * A share link holds the owner's bearer token, anyone who could read the table could act as the owner,
  * so the parameters are encrypted with the application key. A value that is still plain JSON (a row the
  * encrypt_share_token_parameters migration has not reached yet) is read as it is and encrypted the next
- * time the model is saved, so deploying the code before running the migration breaks nothing.
+ * time the model is saved.
+ *
+ * Run the migration as part of the deploy, before anyone starts a game. Reading links works without it, creating
+ * one does not: the column is still json until the migration changes it, and MySQL refuses encrypted text in a
+ * json column (error 3140, the game's share links fail to create). SQLite does not mind, so the tests cannot see it.
  *
  * @implements CastsAttributes<array<string, mixed>, array<string, mixed>|string>
  */
