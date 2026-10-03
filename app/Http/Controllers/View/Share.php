@@ -7,7 +7,6 @@ use App\Api\Service;
 use App\Http\Controllers\Controller;
 use App\Models\ShareToken;
 use Illuminate\Http\Request;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @author Dean Blackborough <dean@g3d-development.com>
@@ -18,7 +17,7 @@ class Share extends Controller
 {
     public function playerBonus(Request $request, string $token)
     {
-        $parameters = $this->getParameters($token);
+        $parameters = ShareToken::parametersFor($token);
 
         $api = new Service($parameters['owner_bearer']);
 
@@ -50,7 +49,7 @@ class Share extends Controller
 
     public function playerScores(Request $request, string $token)
     {
-        $parameters = $this->getParameters($token);
+        $parameters = ShareToken::parametersFor($token);
 
         $api = new Service($parameters['owner_bearer']);
 
@@ -87,7 +86,7 @@ class Share extends Controller
 
     public function scoreSheet(Request $request, string $token)
     {
-        $parameters = $this->getParameters($token);
+        $parameters = ShareToken::parametersFor($token);
 
         $api = new Service($parameters['owner_bearer']);
 
@@ -142,31 +141,4 @@ class Share extends Controller
         );
     }
 
-    #[ArrayShape([
-        'resource_type_id' => "string",
-        'resource_id' => "string",
-        'game_id' => "string",
-        'player_id' => "string",
-        'player_name' => 'string',
-        'owner_bearer' => "string"
-    ])]
-    private function getParameters($token): array
-    {
-        $parameters = ShareToken::query()->where('token', $token)->first();
-        if ($parameters === null) {
-            abort(404, 'The game page for the token does not exist');
-        }
-
-        try {
-            $parameters = json_decode($parameters->parameters, true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            abort(500, 'Failed to decode the parameters for the token');
-        }
-
-        if (array_key_exists('player_name', $parameters) === false) {
-            $parameters['player_name'] = 'Yatzy Player';
-        }
-
-        return $parameters;
-    }
 }

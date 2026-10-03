@@ -7,18 +7,18 @@ namespace Tests\Support;
 /**
  * Builders for the data shapes the Costs to Expect API returns for Yatzy, shared by the
  * tests that fake the API. The score sheet builder applies the same rules as the app: the
- * upper section scores a 35 point bonus from 63, the total is upper + bonus + lower.
+ * upper section scores a 50 point bonus from 63, the total is upper + bonus + lower.
  */
 trait BuildsApiFixtures
 {
     /**
      * @param array<string, int> $upper e.g. ['ones' => 3, 'twos' => 0]
-     * @param array<string, int> $lower e.g. ['full_house' => 25]
+     * @param array<string, int> $lower e.g. ['full_house' => 22]
      */
     protected function scoreSheet(array $upper = [], array $lower = []): array
     {
         $upper_total = array_sum($upper);
-        $bonus = $upper_total >= 63 ? 35 : 0;
+        $bonus = $upper_total >= 63 ? 50 : 0;
         $lower_total = array_sum($lower);
 
         return [

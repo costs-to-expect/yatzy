@@ -59,8 +59,8 @@ class Complete extends Action
             $scores[$score_sheet['key']]['score'] = $score_sheet['value']['score']['total'];
         }
 
-        usort($scores, static function($a, $b) {
-            return $a['score'] < $b['score'] ? 1 : 0;
+        usort($scores, static function (array $a, array $b): int {
+            return $b['score'] <=> $a['score'];
         });
 
         $winner = $scores[array_key_first($scores)];

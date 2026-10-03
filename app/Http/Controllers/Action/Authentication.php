@@ -52,39 +52,20 @@ class Authentication extends Controller
             return redirect()->route(
                 'create-password.view',
                 [
-                    'email' => $request->input('token'),
-                    'token' => $request->input('email')
+                    'email' => $request->input('email'),
+                    'token' => $request->input('token')
                 ])
-                ->withInput()
+                ->withInput($request->except(['password', 'password_confirmation']))
                 ->with('authentication.errors', $response['fields']);
         }
 
         return redirect()->route(
             'create-password.view',
             [
-                'email' => $request->input('token'),
-                'token' => $request->input('email')
+                'email' => $request->input('email'),
+                'token' => $request->input('token')
             ])
             ->with('authentication.failed', $response['content']);
-    }
-
-    public function deleteAccount(Request $request, DeleteAccount $action): RedirectResponse
-    {
-        $this->bootstrap($request);
-
-        $user = $this->api->getAuthUser();
-
-        if ($user['status'] !== 200) {
-            abort(404, 'Unable to fetch your account from the API');
-        }
-
-        $action(
-            $request->cookie($this->config['cookie_bearer']),
-            $user['content']['id'],
-            $user['content']['email']
-        );
-
-        return redirect()->route('account', ['job'=>'delete-account']);
     }
 
     public function deleteYatzyAccount(Request $request, DeleteYatzyAccount $action): RedirectResponse
@@ -106,6 +87,25 @@ class Authentication extends Controller
         );
 
         return redirect()->route('account', ['job'=>'delete-yatzy-account']);
+    }
+
+    public function deleteAccount(Request $request, DeleteAccount $action): RedirectResponse
+    {
+        $this->bootstrap($request);
+
+        $user = $this->api->getAuthUser();
+
+        if ($user['status'] !== 200) {
+            abort(404, 'Unable to fetch your account from the API');
+        }
+
+        $action(
+            $request->cookie($this->config['cookie_bearer']),
+            $user['content']['id'],
+            $user['content']['email']
+        );
+
+        return redirect()->route('account', ['job'=>'delete-account']);
     }
 
     public function register(Request $request)
@@ -152,7 +152,7 @@ class Authentication extends Controller
         }
 
         return redirect()->route('sign-in.view')
-            ->withInput()
+            ->withInput($request->except(['password']))
             ->with(
                 'authentication.errors',
                 Auth::errors()

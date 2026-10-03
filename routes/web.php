@@ -67,6 +67,11 @@ Route::post(
     [\App\Http\Controllers\Action\Share::class, 'scoreLower']
 )->name('public.score-lower.action');
 
+Route::post(
+    '/public/score-sheet/{token}/score-clear',
+    [\App\Http\Controllers\Action\Share::class, 'scoreClear']
+)->name('public.score-clear.action');
+
 Route::get(
     '/public/game/{token}/player-scores',
     [Share::class, 'playerScores']
@@ -153,6 +158,11 @@ Route::group(
             '/game/score-lower',
             [\App\Http\Controllers\Action\Game::class, 'scoreLower']
         )->name('game.score-lower.action');
+
+        Route::post(
+            '/game/score-clear',
+            [\App\Http\Controllers\Action\Game::class, 'scoreClear']
+        )->name('game.score-clear.action');
 
         Route::get(
             '/game/{game_id}/player-scores',

@@ -27,7 +27,8 @@ class Authentication extends Controller
 
         $job = $request->query('job');
         if ($job !== null) {
-            Auth::guard()->logout();
+            // The queued delete job is still going to use the player's token, so don't revoke it
+            Auth::guard()->logout(false);
         }
 
         return view(
