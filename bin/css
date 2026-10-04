@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#
+# Compiles Tailwind CSS using the standalone CLI - no Node/npm involved.
+# Downloads the right binary for this machine into bin/ on first run.
+
+set -euo pipefail
+
+VERSION="v4.3.3"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+case "$(uname -s)" in
+    Darwin) OS="macos" ;;
+    Linux) OS="linux" ;;
+    *) echo "Unsupported OS: $(uname -s)" >&2; exit 1 ;;
+esac
+
+case "$(uname -m)" in
+    arm64|aarch64) ARCH="arm64" ;;
+    x86_64) ARCH="x64" ;;
+    *) echo "Unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+
+BINARY="tailwindcss-${OS}-${ARCH}"
+BINARY_PATH="${ROOT_DIR}/bin/${BINARY}"
+
+if [ ! -x "$BINARY_PATH" ]; then
+    echo "Downloading Tailwind CLI (${BINARY} ${VERSION})..."
+    curl -sL -o "$BINARY_PATH" "https://github.com/tailwindlabs/tailwindcss/releases/download/${VERSION}/${BINARY}"
+    chmod +x "$BINARY_PATH"
+fi
+
+WATCH_FLAG=""
+if [ "${1:-}" = "--watch" ]; then
+    WATCH_FLAG="--watch"
+fi
+
+# Output path is versioned (see config/app/version.php's "css" key) so a
+# deployed app can be updated without stale cached CSS being served.
+CSS_VERSION="$(php -r "echo (require '${ROOT_DIR}/config/app/version.php')['css'];")"
+mkdir -p "${ROOT_DIR}/public/css/${CSS_VERSION}"
+
+"$BINARY_PATH" \
+    -i "${ROOT_DIR}/resources/css/app.css" \
+    -o "${ROOT_DIR}/public/css/${CSS_VERSION}/app.css" \
+    --minify \
+    $WATCH_FLAG

@@ -1,1 +1,0 @@
-<p class="p-2">{{ $message }}</p>

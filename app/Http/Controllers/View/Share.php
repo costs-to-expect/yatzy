@@ -7,7 +7,6 @@ use App\Api\Service;
 use App\Http\Controllers\Controller;
 use App\Models\ShareToken;
 use Illuminate\Http\Request;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @author Dean Blackborough <dean@g3d-development.com>
@@ -16,41 +15,9 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 class Share extends Controller
 {
-    public function playerBonus(Request $request, string $token)
-    {
-        $parameters = $this->getParameters($token);
-
-        $api = new Service($parameters['owner_bearer']);
-
-        $game_response = $api->getGame(
-            $parameters['resource_type_id'],
-            $parameters['resource_id'],
-            $parameters['game_id']
-        );
-
-        if ($game_response['status'] !== 200) {
-            abort(404, 'Game not found');
-        }
-
-        $player_score_sheet_response = $api->getPlayerScoreSheet(
-            $parameters['resource_type_id'],
-            $parameters['resource_id'],
-            $parameters['game_id'],
-            $parameters['player_id']
-        );
-
-        if ($player_score_sheet_response['status'] !== 200) {
-            abort(404, 'Player score sheet not found');
-        }
-
-        $upper_section = $player_score_sheet_response['content']['value']['upper-section'];
-
-        return $this->playerBonusMessage($parameters['game_id'], $parameters['player_id'], $upper_section);
-    }
-
     public function playerScores(Request $request, string $token)
     {
-        $parameters = $this->getParameters($token);
+        $parameters = ShareToken::parametersFor($token);
 
         $api = new Service($parameters['owner_bearer']);
 
@@ -74,20 +41,17 @@ class Share extends Controller
             abort(404, 'Unable to fetch the game scores');
         }
 
-        $scores = $this->fetchPlayerScores(
-            $game_score_sheets_response['content'],
-            $players_response['content']
-        );
-
-        return view(
-            'player-scores',
-            ['scores' => $scores]
-        );
+        return response()->json([
+            'players' => $this->fetchPlayerScores(
+                $game_score_sheets_response['content'],
+                $players_response['content']
+            ),
+        ]);
     }
 
     public function scoreSheet(Request $request, string $token)
     {
-        $parameters = $this->getParameters($token);
+        $parameters = ShareToken::parametersFor($token);
 
         $api = new Service($parameters['owner_bearer']);
 
@@ -129,44 +93,33 @@ class Share extends Controller
             abort($player_score_sheet['status'], $player_score_sheet['content']);
         }
 
+        $score_sheet = $player_score_sheet['content']['value'];
+
         return view(
             'public-score-sheet',
             [
                 'token' => $token,
 
                 'player_name' => $parameters['player_name'],
-                'score_sheet' => $player_score_sheet['content']['value'],
-                'turns' => $this->numberOfTurns($player_score_sheet['content']['value']),
-                'complete' => $game['complete']
+                'score_sheet' => $score_sheet,
+                'turns' => $this->numberOfTurns($score_sheet),
+                'complete' => $game['complete'],
+
+                'config' => $this->sheetConfig(
+                    $api,
+                    $parameters['resource_type_id'],
+                    $score_sheet,
+                    $parameters['player_id'],
+                    $parameters['player_name'],
+                    $game['complete'] === 1,
+                    [
+                        'upper' => route('public.score-upper.action', ['token' => $token]),
+                        'lower' => route('public.score-lower.action', ['token' => $token]),
+                        'clear' => route('public.score-clear.action', ['token' => $token]),
+                        'players' => route('public.player-scores', ['token' => $token]),
+                    ]
+                ),
             ]
         );
-    }
-
-    #[ArrayShape([
-        'resource_type_id' => "string",
-        'resource_id' => "string",
-        'game_id' => "string",
-        'player_id' => "string",
-        'player_name' => 'string',
-        'owner_bearer' => "string"
-    ])]
-    private function getParameters($token): array
-    {
-        $parameters = ShareToken::query()->where('token', $token)->first();
-        if ($parameters === null) {
-            abort(404, 'The game page for the token does not exist');
-        }
-
-        try {
-            $parameters = json_decode($parameters->parameters, true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            abort(500, 'Failed to decode the parameters for the token');
-        }
-
-        if (array_key_exists('player_name', $parameters) === false) {
-            $parameters['player_name'] = 'Yatzy Player';
-        }
-
-        return $parameters;
     }
 }

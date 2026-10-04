@@ -8,10 +8,11 @@ return [
     'cache' => env('APP_CACHE', false),
     'item_type_id' => env('ITEM_TYPE_ID'),
     'item_subtype_id' => env('ITEM_SUBTYPE_ID'),
-    'internal_key' => env('COSTS_TO_EXPECT_INTERNAL_API_KEY'),
     'error_email' => env('ERROR_EMAIL'),
+    'internal_key' => env('COSTS_TO_EXPECT_INTERNAL_API_KEY'),
     'cookie_user' => env('SESSION_NAME_USER'),
     'cookie_bearer' => env('SESSION_NAME_BEARER'),
-    'version' => '1.05.0',
-    'release_date' => '13th September 2026'
+    // Undo, change and clear a score. They remove a key from the stored score sheet, which needs the API to replace
+    // the sheet it is sent, switch them on once that has been confirmed against the API
+    'score_corrections' => (bool) env('SCORE_CORRECTIONS', false),
 ];

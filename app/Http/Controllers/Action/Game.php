@@ -8,13 +8,11 @@ use App\Actions\Game\Complete;
 use App\Actions\Game\Create;
 use App\Actions\Game\Delete;
 use App\Actions\Game\DeletePlayer;
-use App\Actions\Game\Log;
 use App\Actions\Game\Start;
 use App\Http\Controllers\Controller;
-use App\Notifications\ApiError;
+use App\Support\ScoreRules;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Notification;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 /**
  * @author Dean Blackborough <dean@g3d-development.com>
@@ -41,6 +39,31 @@ class Game extends Controller
 
         if ($result === 422) {
             return redirect()->route('game.create.view')
+                ->withInput()
+                ->with('validation.errors',$action->getValidationErrors());
+        }
+
+        abort($result, $action->getMessage());
+    }
+
+    public function start(Request $request)
+    {
+        $this->bootstrap($request);
+
+        $action = new Start();
+        $result = $action(
+            $this->api,
+            $this->resource_type_id,
+            $this->resource_id,
+            $request->only(['players'])
+        );
+
+        if ($result === 201) {
+            return redirect()->route('game.show', ['game_id' => $action->getGameId()]);
+        }
+
+        if ($result === 422) {
+            return redirect()->route('home')
                 ->withInput()
                 ->with('validation.errors',$action->getValidationErrors());
         }
@@ -92,11 +115,13 @@ class Game extends Controller
             if ($result === 204) {
                 return redirect()->route('home');
             }
+        } catch (HttpExceptionInterface $e) {
+            throw $e;
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
 
-        abort(500, 'Unable to complete the game, returned status code: ' . $result['status']);
+        abort(500, 'Unable to complete the game, returned status code: ' . $result);
     }
 
     public function completeAndPlayAgain(Request $request, string $game_id)
@@ -150,11 +175,13 @@ class Game extends Controller
                 abort($result, $create_action->getMessage());
 
             }
+        } catch (HttpExceptionInterface $e) {
+            throw $e;
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
 
-        abort(500, 'Unable to complete the game, returned status code: ' . $result['status']);
+        abort(500, 'Unable to complete the game, returned status code: ' . $result);
     }
 
     public function deleteGame(Request $request, string $game_id)
@@ -173,6 +200,8 @@ class Game extends Controller
             if ($result === 204) {
                 return redirect()->route('home');
             }
+        } catch (HttpExceptionInterface $e) {
+            throw $e;
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
         }
@@ -208,65 +237,16 @@ class Game extends Controller
     {
         $this->bootstrap($request);
 
-        $score_sheet = $this->api->getPlayerScoreSheet(
-            $this->resource_type_id,
-            $this->resource_id,
-            $request->input('game_id'),
-            $request->input('player_id')
-        );
-
-        if ($score_sheet['status'] !== 200) {
-            return response()->json(['message' => 'Unable to fetch your score sheet'], $score_sheet['status']);
-        }
-
-        $score_sheet = $score_sheet['content']['value'];
-
-        $score_sheet['upper-section'][$request->input('dice')] = $request->input('score');
-        $score_upper = 0;
-        $score_bonus = 0;
-        foreach ($score_sheet['upper-section'] as $value) {
-            $score_upper += $value;
-        }
-        if ($score_upper >= 63) {
-            $score_bonus = 50;
-        }
-
-        $score_sheet['score']['upper'] = $score_upper;
-        $score_sheet['score']['bonus'] = $score_bonus;
-        $score_sheet['score']['total'] = $score_sheet['score']['lower'] + $score_upper + $score_bonus;
-
-        $log_action = new Log();
-        $log_action_result = $log_action(
-            $this->api,
-            $this->resource_type_id,
-            $this->resource_id,
-            $request->input('game_id'),
-            'Scored ' . $request->input('score') . ' in their ' . ucfirst($request->input('dice')),
-            [
-                'player' => $request->input('player_id'),
-                'section' => 'upper',
-                'dice' => $request->input('dice'),
-                'score' => $request->input('score'),
-            ]
-        );
-
-        if ($log_action_result !== 201) {
-            $config = Config::get('app.config');
-
-            Notification::route('mail', $config['error_email'])
-                ->notify(new ApiError(
-                    'Unable to log the score for the upper section',
-                    $log_action->getMessage()
-                ));
-        }
-
-        return $this->score(
+        return $this->changeScore(
             $this->api,
             $this->resource_type_id,
             $this->resource_id,
             $request->input('game_id'),
             $request->input('player_id'),
-            $score_sheet
+            ScoreRules::UPPER_SECTION,
+            $request->input('dice'),
+            $request->input('score'),
+            $request->boolean('replace')
         );
     }
 
@@ -274,95 +254,33 @@ class Game extends Controller
     {
         $this->bootstrap($request);
 
-        $score_sheet = $this->api->getPlayerScoreSheet(
-            $this->resource_type_id,
-            $this->resource_id,
-            $request->input('game_id'),
-            $request->input('player_id')
-        );
-
-        $combo = $request->input('combo');
-        $score = $request->input('score');
-
-        if ($score_sheet['status'] !== 200) {
-            return response()->json(['message' => 'Unable to fetch your score sheet'], $score_sheet['status']);
-        }
-
-        $score_sheet = $score_sheet['content']['value'];
-
-        $score_sheet['lower-section'][$combo] = $score;
-        $score_lower = 0;
-        foreach ($score_sheet['lower-section'] as $value) {
-            $score_lower += $value;
-        }
-
-        $score_sheet['score']['lower'] = $score_lower;
-        $score_sheet['score']['total'] = $score_sheet['score']['upper'] + $score_sheet['score']['bonus'] + $score_lower;
-
-        $message = match ($combo) {
-            'one_pair', 'two_pair', 'three_of_a_kind', 'four_of_a_kind', 'full_house', 'chance' => 'Scored ' . $score . ' in ' . ucfirst(
-                    str_replace('_', ' ', $combo)
-                ),
-            default => 'Scored their ' . ucfirst(str_replace('_', ' ', $combo)) . ', scoring ' . $score,
-        };
-
-        $log_action = new Log();
-        $log_action_result = $log_action(
-            $this->api,
-            $this->resource_type_id,
-            $this->resource_id,
-            $request->input('game_id'),
-            $message,
-            [
-                'player' => $request->input('player_id'),
-                'section' => 'lower',
-                'combo' => $request->input('combo'),
-                'score' => $request->input('score'),
-            ]
-        );
-
-        if ($log_action_result !== 201) {
-            $config = Config::get('app.config');
-
-            Notification::route('mail', $config['error_email'])
-                ->notify(new ApiError(
-                    'Unable to log the score for the lower section',
-                    $log_action->getMessage()
-                ));
-        }
-
-        return $this->score(
+        return $this->changeScore(
             $this->api,
             $this->resource_type_id,
             $this->resource_id,
             $request->input('game_id'),
             $request->input('player_id'),
-            $score_sheet
+            ScoreRules::LOWER_SECTION,
+            $request->input('combo'),
+            $request->input('score'),
+            $request->boolean('replace')
         );
     }
 
-    public function start(Request $request)
+    public function scoreClear(Request $request)
     {
         $this->bootstrap($request);
 
-        $action = new Start();
-        $result = $action(
+        return $this->changeScore(
             $this->api,
             $this->resource_type_id,
             $this->resource_id,
-            $request->only(['players'])
+            $request->input('game_id'),
+            $request->input('player_id'),
+            (string) $request->input('section'),
+            $request->input('combo'),
+            null,
+            clear: true
         );
-
-        if ($result === 201) {
-            return redirect()->route('game.show', ['game_id' => $action->getGameId()]);
-        }
-
-        if ($result === 422) {
-            return redirect()->route('home')
-                ->withInput()
-                ->with('validation.errors',$action->getValidationErrors());
-        }
-
-        abort($result, $action->getMessage());
     }
 }

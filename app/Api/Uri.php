@@ -24,6 +24,15 @@ class Uri
     }
 
     #[ArrayShape(['uri' => "string", 'name' => "string"])]
+    public static function authLogout(): array
+    {
+        return [
+            'uri' => '/' . self::VERSION . '/auth/logout',
+            'name' => 'Sign-out'
+        ];
+    }
+
+    #[ArrayShape(['uri' => "string", 'name' => "string"])]
     public static function authUser(): array
     {
         return [
@@ -41,6 +50,27 @@ class Uri
         return [
             'uri' => $uri,
             'name' => 'Create Password'
+        ];
+    }
+
+    #[ArrayShape(['uri' => "string", 'name' => "string"])]
+    public static function createNewPassword(string $encrypted_token, string $email): array
+    {
+        $uri = '/' . self::VERSION . '/auth/create-new-password?encrypted_token=' .
+                urlencode($encrypted_token) . '&email=' . urlencode($email);
+
+        return [
+            'uri' => $uri,
+            'name' => 'Create New Password'
+        ];
+    }
+
+    #[ArrayShape(['uri' => "string", 'name' => "string"])]
+    public static function forgotPassword(): array
+    {
+        return [
+            'uri' => '/' . self::VERSION . '/auth/forgot-password?send=false',
+            'name' => 'Forgot Password'
         ];
     }
 

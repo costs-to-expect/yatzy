@@ -4,6 +4,7 @@ namespace App\Auth\Guard\Api;
 
 use App\Api\Service;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
 
 /**
  * @author Dean Blackborough <dean@g3d-development.com>
@@ -13,17 +14,26 @@ use Illuminate\Contracts\Auth\Authenticatable;
 class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
 {
     private array $config;
+    private Request $request;
 
-    public function __construct(array $config)
+    public function __construct(array $config, Request $request)
     {
         $this->config = $config;
+        $this->request = $request;
     }
 
+    /**
+     * There is no local user, the user is whoever the API says owns the bearer token
+     * in the player's cookie
+     */
     public function retrieveById($identifier): ?Authenticatable
     {
-        $api = new Service($this->config['cookie_bearer']);
+        $bearer = $this->request->cookie($this->config['cookie_bearer']);
+        if ($bearer === null) {
+            return null;
+        }
 
-        $user_response = $api->getAuthUser();
+        $user_response = (new Service($bearer))->getAuthUser();
         if ($user_response['status'] === 200) {
             $user = new User();
             $user->id = $user_response['content']['id'];
@@ -54,5 +64,10 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
     public function validateCredentials(Authenticatable $user, array $credentials): void
     {
         // Not necessary
+    }
+
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false): void
+    {
+        // Not necessary, the API owns the passwords
     }
 }

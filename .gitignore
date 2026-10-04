@@ -5,10 +5,9 @@
 .env
 .env.backup
 .phpunit.result.cache
-yarn-error.log
 .idea
 .docker/mysql/data
-public/node_modules
-public/yarn.lock
-public/.yarn
-public/.yarnrc.yml
+/.phpunit.cache
+
+# Tailwind standalone CLI binary - platform specific, downloaded by bin/css rather than committed
+/bin/tailwindcss-*

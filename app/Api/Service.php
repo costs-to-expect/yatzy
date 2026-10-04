@@ -18,7 +18,7 @@ class Service
     private string $item_type_id;
     private string $item_subtype_id;
 
-    public function __construct(string $bearer = null)
+    public function __construct(?string $bearer = null)
     {
         $this->http = new Http($bearer);
 
@@ -96,6 +96,17 @@ class Service
         );
     }
 
+    /**
+     * Revokes the bearer token the service was created with
+     */
+    #[ArrayShape(['status' => "integer", 'content' => "array"])]
+    public function authLogout(): array
+    {
+        $uri = Uri::authLogout();
+
+        return $this->http->get($uri['uri']);
+    }
+
     #[ArrayShape(['status' => "integer", 'content' => "array"])]
     public function getAuthUser(): array
     {
@@ -161,6 +172,38 @@ class Service
     public function createPassword(array $payload): array
     {
         $uri = Uri::createPassword($payload['token'], $payload['email']);
+
+        return $this->http->post(
+            $uri['uri'],
+            [
+                'password' => $payload['password'],
+                'password_confirmation' => $payload['password_confirmation']
+            ]
+        );
+    }
+
+    /**
+     * The API only allows trusted internal services to request a password reset, the request
+     * has to carry the internal API key
+     */
+    #[ArrayShape(['status' => "integer", 'content' => "array", 'fields' => "array"])]
+    public function forgotPassword(string $email): array
+    {
+        $uri = Uri::forgotPassword();
+
+        return $this->http->post(
+            $uri['uri'],
+            [
+                'email' => $email
+            ],
+            internal: true
+        );
+    }
+
+    #[ArrayShape(['status' => "integer", 'content' => "array", 'fields' => "array"])]
+    public function createNewPassword(array $payload): array
+    {
+        $uri = Uri::createNewPassword($payload['encrypted_token'], $payload['email']);
 
         return $this->http->post(
             $uri['uri'],

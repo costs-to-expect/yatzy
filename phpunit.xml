@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing" force="true"/>
+        <!-- A throwaway key that only the tests use, it makes them independent of the key in your .env -->
+        <env name="APP_KEY" value="base64:AeNHS3cE4YSEvEq84wgN9Zi+JNkk8nS8kqWI/6So6c8=" force="true"/>
+        <env name="APP_DEBUG" value="true" force="true"/>
+        <env name="APP_DEV" value="false" force="true"/>
+        <env name="APP_URL" value="http://yatzy.test" force="true"/>
+        <env name="BCRYPT_ROUNDS" value="4" force="true"/>
+        <env name="BROADCAST_DRIVER" value="log" force="true"/>
+        <env name="CACHE_DRIVER" value="array" force="true"/>
+        <env name="DB_CONNECTION" value="sqlite" force="true"/>
+        <env name="DB_DATABASE" value=":memory:" force="true"/>
+        <!-- Tests that exercise a failure log it, they must never write to the development log -->
+        <env name="LOG_CHANNEL" value="null" force="true"/>
+        <env name="MAIL_MAILER" value="array" force="true"/>
+        <env name="QUEUE_CONNECTION" value="sync" force="true"/>
+        <env name="SESSION_DRIVER" value="array" force="true"/>
+
+        <!-- The Costs to Expect API settings the app reads, never a real API in tests. -->
+        <env name="API_URL" value="http://api.test" force="true"/>
+        <env name="API_URL_DEV" value="http://api.test" force="true"/>
+        <env name="COSTS_TO_EXPECT_INTERNAL_API_KEY" value="testing-internal-api-key" force="true"/>
+        <env name="ITEM_TYPE_ID" value="item-type-id" force="true"/>
+        <env name="ITEM_SUBTYPE_ID" value="item-subtype-id" force="true"/>
+        <env name="ERROR_EMAIL" value="errors@yatzy.test" force="true"/>
+        <env name="SESSION_NAME_USER" value="yatzy_user" force="true"/>
+        <env name="SESSION_NAME_BEARER" value="yatzy_bearer" force="true"/>
+
+        <!-- Laravel reads $_SERVER before $_ENV, and the container's real variables (docker compose loads
+             .env into them) land there, so <env> alone loses to them. tests/TestCase.php refuses to boot
+             against anything but in-memory SQLite, a test run must never touch the development database. -->
+        <server name="APP_ENV" value="testing" force="true"/>
+        <server name="APP_KEY" value="base64:AeNHS3cE4YSEvEq84wgN9Zi+JNkk8nS8kqWI/6So6c8=" force="true"/>
+        <server name="APP_DEV" value="false" force="true"/>
+        <server name="APP_URL" value="http://yatzy.test" force="true"/>
+        <server name="CACHE_DRIVER" value="array" force="true"/>
+        <server name="DB_CONNECTION" value="sqlite" force="true"/>
+        <server name="DB_DATABASE" value=":memory:" force="true"/>
+        <server name="LOG_CHANNEL" value="null" force="true"/>
+        <server name="MAIL_MAILER" value="array" force="true"/>
+        <server name="QUEUE_CONNECTION" value="sync" force="true"/>
+        <server name="SESSION_DRIVER" value="array" force="true"/>
+        <server name="SESSION_CONNECTION" value="null" force="true"/>
+        <server name="SESSION_DOMAIN" value="null" force="true"/>
+        <server name="API_URL" value="http://api.test" force="true"/>
+        <server name="API_URL_DEV" value="http://api.test" force="true"/>
+        <server name="COSTS_TO_EXPECT_INTERNAL_API_KEY" value="testing-internal-api-key" force="true"/>
+        <server name="ITEM_TYPE_ID" value="item-type-id" force="true"/>
+        <server name="ITEM_SUBTYPE_ID" value="item-subtype-id" force="true"/>
+        <server name="ERROR_EMAIL" value="errors@yatzy.test" force="true"/>
+        <server name="SESSION_NAME_USER" value="yatzy_user" force="true"/>
+        <server name="SESSION_NAME_BEARER" value="yatzy_bearer" force="true"/>
+    </php>
+</phpunit>

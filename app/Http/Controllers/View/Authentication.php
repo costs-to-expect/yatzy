@@ -27,7 +27,8 @@ class Authentication extends Controller
 
         $job = $request->query('job');
         if ($job !== null) {
-            Auth::guard()->logout();
+            // The queued delete job is still going to use the player's token, so don't revoke it
+            Auth::guard()->logout(false);
         }
 
         return view(
@@ -103,6 +104,47 @@ class Authentication extends Controller
                 'failed' => session()->get('authentication.failed'),
             ]
         );
+    }
+
+    public function createNewPassword(Request $request)
+    {
+        $encrypted_token = $request->query('encrypted_token');
+        $email = $request->query('email');
+
+        if ($encrypted_token === null || $email === null) {
+            abort(404, 'Password cannot be created, forgot password parameters not found');
+        }
+
+        return view(
+            'create-new-password',
+            [
+                'encrypted_token' => $encrypted_token,
+                'email' => $email,
+                'errors' => session()->get('authentication.errors'),
+                'failed' => session()->get('authentication.failed'),
+            ]
+        );
+    }
+
+    public function createNewPasswordConfirmation()
+    {
+        return view('create-new-password-confirmation');
+    }
+
+    public function forgotPassword()
+    {
+        return view(
+            'forgot-password',
+            [
+                'errors' => session()->get('authentication.errors'),
+                'failed' => session()->get('authentication.failed'),
+            ]
+        );
+    }
+
+    public function forgotPasswordConfirmation()
+    {
+        return view('forgot-password-confirmation');
     }
 
     public function register()

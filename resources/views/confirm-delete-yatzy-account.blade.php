@@ -1,109 +1,26 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Yatzy Game Scorer by Costs to Expect">
-        <meta name="author" content="Dean Blackborough">
-        <title>Yatzy Game Scorer: Account</title>
-        <link rel="icon" sizes="48x48" href="{{ asset('images/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon.png') }}">
-        <link href="{{ asset('css/theme.css') }}" rel="stylesheet" />
-    </head>
-    <body>
-        <x-offcanvas active="account" />
+<x-layouts.app :title="config('app.game.name').' Game Scorer: Delete Yatzy account'" active="account">
+    <div class="mx-auto max-w-3xl">
+        <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Delete Yatzy account</h1>
+        <p class="mt-2 text-stone-700">We will immediately create a background task to delete your data, the task should start within a minute, once it completes all your Yatzy data will be gone and your session will be deleted.</p>
+        <p class="mt-2 text-stone-700">Please review the tables below to see what will be deleted and what will remain.</p>
 
-        <div class="col-lg-8 mx-auto p-3 py-md-5">
-            <main>
-                <h2>Delete Yatzy account</h2>
+        <x-data-table class="mt-6" title="Data that will be deleted" :rows="[
+            ['Yatzy games', 'Your open and complete games', 'API'],
+            ['Share tokens', 'Public share tokens for open games', 'Yatzy'],
+            ['Game log', 'The logs containing all game actions', 'API'],
+            ['Sessions', 'Session information', 'Yatzy'],
+        ]" />
 
-                <p class="lead">We will immediately create a background task to delete your data, the task should
-                    start within a minute, once it completes all your Yatzy data will be gone and your session
-                    will be deleted.</p>
+        <x-data-table class="mt-6" title="Data that will not be deleted" :rows="[
+            ['Account', 'Your Costs to Expect account, one account for all our apps', 'API'],
+            ['Players', 'Players you created, usable across all our game scoring apps', 'API'],
+            ['Other apps', 'You will still have access to all the other Costs to Expect apps and none of your data will be touched', 'API & other Costs to Expect apps'],
+        ]" />
 
-                <p>Please review the tables below to see what will be deleted and what will remain.</p>
-
-                <h4>Data that will be deleted</h4>
-
-                <p>All the data listed in this table will be deleted.</p>
-
-                <div class="table-responsive">
-                    <table class="table table-dark">
-                        <thead>
-                        <tr>
-                            <th scope="col">Content</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Location</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Yatzy Games</td>
-                            <td>Your open and complete games</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Share Tokens</td>
-                            <td>Public share tokens for open games</td>
-                            <td>Yatzy</td>
-                        </tr>
-                        <tr>
-                            <td>Game Log</td>
-                            <td>The logs containing all game actions</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Sessions</td>
-                            <td>Session information</td>
-                            <td>Yatzy</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h4>Data that will be not deleted</h4>
-
-                <p>All the data listed in this table will remain.</p>
-
-                <div class="table-responsive">
-                    <table class="table table-dark">
-                        <thead>
-                        <tr>
-                            <th scope="col">Content</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Location</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Account</td>
-                            <td>Your Costs to Expect account, one account for all our Apps</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Players</td>
-                            <td>Players you created, usable across all our game scoring Apps</td>
-                            <td>API</td>
-                        </tr>
-                        <tr>
-                            <td>Other Apps</td>
-                            <td>Your will still have access to all the other Costs to Expect Apps and
-                                none of your data will be touched</td>
-                            <td>API & other Costs to Expect Apps</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <form action="{{ route('account.delete-yatzy-account.action') }}" method="POST" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-sm btn-danger">Confirm Delete (Cannot be undone)</button>
-                    <a href="{{ route('account') }}" class="btn btn-sm btn-primary">Cancel</a>
-                </form>
-
-            </main>
-            <x-footer />
-        </div>
-        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.js') }}" defer></script>
-    </body>
-</html>
+        <form action="{{ route('account.delete-yatzy-account.action') }}" method="POST" class="mt-8 flex flex-col gap-3 sm:flex-row">
+            @csrf
+            <button type="submit" class="btn btn-danger">Confirm delete (cannot be undone)</button>
+            <a href="{{ route('account') }}" class="btn btn-quiet">Cancel</a>
+        </form>
+    </div>
+</x-layouts.app>

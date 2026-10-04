@@ -1,75 +1,40 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Yatzy Game Scorer by Costs to Expect">
-        <meta name="author" content="Dean Blackborough">
-        <title>Yatzy Game Scorer: Add Players to Game</title>
-        <link rel="icon" sizes="48x48" href="{{ asset('images/favicon.ico') }}">
-        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('images/favicon.png') }}">
-        <link href="{{ asset('css/theme.css') }}" rel="stylesheet" />
-    </head>
-    <body>
-        <x-offcanvas active="players" />
+@php
+    $player_errors = $errors['players']['errors'] ?? [];
+@endphp
+<x-layouts.app :title="config('app.game.name').' Game Scorer: Add Players to Game'" active="home">
+    <div class="mx-auto max-w-xl">
+        <div class="card sm:p-8">
+            <h1 class="text-3xl font-extrabold tracking-tight">Add players</h1>
+            <p class="mt-1.5 text-stone-600">Select any additional players to add to the game, each gets their own score sheet and share link.</p>
 
-        <div class="col-lg-8 mx-auto p-3 py-md-5">
+            @if (count($game_players) > 0)
+                <h2 class="mt-6 text-sm font-extrabold uppercase tracking-wider text-stone-600">Playing now</h2>
+                <ul class="mt-2 flex flex-wrap gap-2">
+                    @foreach ($game_players as $__game_player)
+                        <li class="inline-flex min-h-9 items-center gap-2 rounded-full bg-stone-100 px-3.5 text-sm font-bold text-stone-800">{{ $__game_player }}</li>
+                    @endforeach
+                </ul>
+            @endif
 
-            <main>
-                <form action="{{ route('game.add-players.action', ['game_id' => $game_id]) }}" method="POST" class="col-12 col-md-4 col-lg-4 mx-auto p-2">
-
+            @if (count($players) > 0)
+                <form action="{{ route('game.add-players.action', ['game_id' => $game_id]) }}" method="POST" class="mt-6">
                     @csrf
+                    <h2 class="mb-2 text-sm font-extrabold uppercase tracking-wider text-stone-600">Add to the game</h2>
+                    <x-player-picker :players="$players" :tones="$tones" legend="Players to add" />
 
-                    <div class="mb-3">
-                        <h2>Add Players</h2>
-                        <p>Select any additional players to add to the game.</p>
-
-                        @if (count($game_players) > 0)
-                            <h3>Current Players</h3>
-
-                            <ul class="list-unstyled">
-                                @foreach ($game_players as $__game_player)
-                                <li>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                    </svg>
-                                    {{ $__game_player }}
-                                </li>
-                                @endforeach
-                            </ul>
-                        @endif
-
-                        <h3>New Players</h3>
-
-                        @foreach ($players as $__player)
-                        <div class="form-check">
-                            <input class="form-check-input @if($errors !== null && array_key_exists('players', $errors)) is-invalid @endif" type="checkbox" value="{{ $__player['id'] }}" name="players[]" id="players_{{ $__player['id'] }}" />
-                            <label class="form-check-label" for="players_{{ $__player['id'] }}">
-                                {{ $__player['name'] }}
-                            </label>
-                            @if($errors !== null && array_key_exists('players', $errors))
-                                <div class="invalid-feedback">
-                                    @foreach ($errors['players']['errors'] as $error)
-                                        {{ $error }}
-                                    @endforeach
-                                </div>
-                            @endif
-                        </div>
-                        @endforeach
-                    </div>
-
-                    @if (count($players) > 0)
-                    <button type="submit" class="btn btn-primary w-100">Add Players</button>
-                    @else
-                    <span class="text-primary">
-                        There are no more players to add to the game, check the
-                        <a href="{{ route('players') }}">players</a> list, you might need to add one.
-                    </span>
+                    @if ($player_errors !== [])
+                        <p class="form-error" role="alert"><x-icon name="alert" class="mt-0.5 h-4 w-4 shrink-0" /><span>{{ implode(' ', $player_errors) }}</span></p>
                     @endif
+
+                    <button type="submit" class="btn btn-primary btn-block mt-6">Add players</button>
                 </form>
-            </main>
-            <x-footer />
+            @else
+                <x-alert type="info" class="mt-6">
+                    There are no more players to add to the game, check the <a href="{{ route('players') }}" class="text-link">players</a> list, you might need to add one.
+                </x-alert>
+            @endif
+
+            <a href="{{ route('home') }}" class="btn btn-quiet btn-block mt-3">Back to the game</a>
         </div>
-        <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.js') }}" defer></script>
-    </body>
-</html>
+    </div>
+</x-layouts.app>

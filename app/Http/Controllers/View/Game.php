@@ -5,6 +5,8 @@ namespace App\Http\Controllers\View;
 
 use App\Http\Controllers\Controller;
 use App\Models\ShareToken;
+use App\Support\GameBoard;
+use App\Support\ScoreRules;
 use Illuminate\Http\Request;
 
 /**
@@ -32,6 +34,10 @@ class Game extends Controller
             ]
         );
 
+        if ($games_response['status'] !== 200) {
+            abort($games_response['status'], $games_response['content']);
+        }
+
         $pagination = [
             'previous' => ($games_response['headers']['X-Link-Previous'][0] !== ''),
             'next' => ($games_response['headers']['X-Link-Next'][0] !== ''),
@@ -41,7 +47,7 @@ class Game extends Controller
         ];
 
         $games = [];
-        if ($games_response['status'] === 200 && count($games_response['content']) > 0) {
+        if (count($games_response['content']) > 0) {
             $games = $games_response['content'];
         }
 
@@ -70,6 +76,8 @@ class Game extends Controller
         }
 
         $game_scores = [];
+        $totals = [];
+        $turns = [];
         $game_score_sheets_response = $this->api->getGameScoreSheets(
             $this->resource_type_id,
             $this->resource_id,
@@ -79,15 +87,38 @@ class Game extends Controller
         if ($game_score_sheets_response['status'] === 200) {
             foreach ($game_score_sheets_response['content'] as $score_sheet) {
                 $game_scores[$game['content']['id']][$score_sheet['key']] = $score_sheet['value']['score']['total'];
+                $totals[$score_sheet['key']] = $score_sheet['value']['score']['total'];
+                $turns[$score_sheet['key']] = ScoreRules::turns($score_sheet['value']);
             }
         }
+
+        // The colour of each player comes from their place in the players list, as it does everywhere else
+        $players_response = $this->api->getPlayers($this->resource_type_id, ['collection' => true]);
+        $players = [];
+        if ($players_response['status'] === 200) {
+            foreach ($players_response['content'] as $player) {
+                $players[] = ['id' => $player['id'], 'name' => $player['name']];
+            }
+        }
+        $tones = GameBoard::tones($players);
+
+        $standings = GameBoard::standings(
+            $game['content']['players']['collection'] ?? [],
+            $totals,
+            $turns,
+            $tones,
+            (int) config('app.game.turns')
+        );
 
         return view(
             'game',
             [
                 'game' => $game['content'],
                 'game_scores' => $game_scores,
-                'share_tokens' => (new ShareToken())->getShareTokens(),
+                'share_tokens' => (new ShareToken())->getShareTokens([$game['content']['id']]),
+                'tones' => $tones,
+                'standings' => $standings,
+                'started' => GameBoard::startedAt($game['content']),
             ]
         );
 
@@ -116,6 +147,7 @@ class Game extends Controller
                 'resource_id' => $this->resource_id,
 
                 'players' => $players,
+                'tones' => GameBoard::tones($players),
 
                 'errors' => session()->get('validation.errors')
             ]
@@ -182,41 +214,13 @@ class Game extends Controller
 
                 'players' => $players,
                 'game_players' => $game_players,
+                'tones' => GameBoard::tones($all_players),
 
                 'errors' => session()->get('validation.errors')
             ]
         );
     }
 
-    public function playerBonus(Request $request, string $game_id, string $player_id)
-    {
-        $this->bootstrap($request);
-
-        $game_response = $this->api->getGame(
-            $this->resource_type_id,
-            $this->resource_id,
-            $game_id
-        );
-
-        if ($game_response['status'] !== 200) {
-            abort(404, 'Game not found');
-        }
-
-        $player_score_sheet_response = $this->api->getPlayerScoreSheet(
-            $this->resource_type_id,
-            $this->resource_id,
-            $game_id,
-            $player_id
-        );
-
-        if ($player_score_sheet_response['status'] !== 200) {
-            abort(404, 'Player score sheet not found');
-        }
-
-        $upper_section = $player_score_sheet_response['content']['value']['upper-section'];
-
-        return $this->playerBonusMessage($game_id, $player_id, $upper_section);
-    }
 
     public function playerScores(Request $request, string $game_id)
     {
@@ -241,15 +245,12 @@ class Game extends Controller
             abort(404, 'Unable to fetch the game scores');
         }
 
-        $scores = $this->fetchPlayerScores(
-            $game_score_sheets_response['content'],
-            $players_response['content']
-        );
-
-        return view(
-            'player-scores',
-            ['scores' => $scores]
-        );
+        return response()->json([
+            'players' => $this->fetchPlayerScores(
+                $game_score_sheets_response['content'],
+                $players_response['content']
+            ),
+        ]);
     }
 
     public function scoreSheet(Request $request, string $game_id, string $player_id)
@@ -303,6 +304,9 @@ class Game extends Controller
             abort($player_score_sheet['status'], $player_score_sheet['content']);
         }
 
+        $score_sheet = $player_score_sheet['content']['value'];
+        $complete = $game['complete'] === 1;
+
         return view(
             'score-sheet',
             [
@@ -313,9 +317,27 @@ class Game extends Controller
 
                 'player_name' => $player_name,
 
-                'score_sheet' => $player_score_sheet['content']['value'],
-                'turns' => $this->numberOfTurns($player_score_sheet['content']['value']),
-                'complete' => $game['complete']
+                'score_sheet' => $score_sheet,
+                'turns' => $this->numberOfTurns($score_sheet),
+                'complete' => $game['complete'],
+
+                'config' => $this->sheetConfig(
+                    $this->api,
+                    $this->resource_type_id,
+                    $score_sheet,
+                    $player_id,
+                    $player_name,
+                    $complete,
+                    [
+                        'upper' => route('game.score-upper.action'),
+                        'lower' => route('game.score-lower.action'),
+                        'clear' => route('game.score-clear.action'),
+                        'players' => route('game.player-scores', ['game_id' => $game_id]),
+                        'back' => route('home'),
+                        'complete' => route('game.complete.action', ['game_id' => $game_id]),
+                    ],
+                    ['game_id' => $game_id, 'player_id' => $player_id]
+                ),
             ]
         );
     }
