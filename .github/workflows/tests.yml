@@ -21,8 +21,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 8.2 is what the app runs on, the newer versions are the ones we are moving to
-        php: ['8.2', '8.3', '8.4', '8.5']
+        # 8.5 is what the app runs on, add the next release here to try it before the app moves
+        php: ['8.5']
 
     steps:
       - name: Checkout

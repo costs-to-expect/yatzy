@@ -1,4 +1,4 @@
-[![Minimum PHP Version](https://img.shields.io/badge/php-^8.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-^8.5-8892BF.svg)](https://php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/costs-to-expect/yatzy/blob/main/LICENSE)
 [![Tests](https://github.com/costs-to-expect/yatzy/actions/workflows/tests.yml/badge.svg)](https://github.com/costs-to-expect/yatzy/actions/workflows/tests.yml)
 [![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F13270108-d2e9-459a-9491-8cd34a122001&style=flat-square)](https://forge.laravel.com/servers/581137/sites/2028561)
@@ -89,8 +89,8 @@ The tests use an in-memory SQLite database and fake every request to the API, th
 database (the test case refuses to run against anything else) or a real API. `phpunit.xml` sets everything they 
 use, including a throwaway application key, so they need no `.env`.
 
-GitHub Actions runs them on PHP 8.2, 8.3, 8.4 and 8.5 for every push and pull request, see 
-`.github/workflows/tests.yml`. 8.2 is the version the app runs on, the others are the versions it is moving to.
+GitHub Actions runs them on PHP 8.5 for every push and pull request, see 
+`.github/workflows/tests.yml`. 8.5 is the version the app runs on.
 
 PHPUnit can't test the scripts in `public/js`, the score sheet script included. They have no automated tests yet, 
 Yahtzee's [browser tests](https://github.com/costs-to-expect/yahtzee/tree/main/tests/e2e) (the real app against a mock of
@@ -166,7 +166,10 @@ to store a new, encrypted, link in the `json` column, so no game can be created 
 
 ## PHP and Laravel versions
 
-The app runs on Laravel 12 and PHP 8.2, `composer.json` pins the platform to 8.2 so a `composer update` on a newer 
-PHP on your machine can't pick packages the production server can't run. When the app moves to PHP 8.4 or later,
-change the Dockerfile image, `require.php` and `config.platform.php` together, Laravel 13 needs PHP 8.3 or later, 
-the tests pass on PHP 8.2 and 8.5.
+The app runs on Laravel 12 and PHP 8.5, `composer.json` pins the platform to 8.5.12 so a `composer update` on a newer 
+PHP on your machine can't pick packages the production server can't run. The pin has a patch version because 
+`roave/security-advisories` conflicts with PHP releases that have known vulnerabilities (everything before 8.5.12), 
+run 8.5.12 or later and raise the pin when it does. When the app moves to a newer PHP, add the version to the test 
+matrix first, then change the Dockerfile image, `require.php` and `config.platform.php` together and run
+`composer update --lock` to refresh the lock file's hash. Laravel 13 needs PHP 8.3 or later, so the PHP version is no
+longer in its way.
