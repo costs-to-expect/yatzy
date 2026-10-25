@@ -5,6 +5,6 @@ return [
     // version in their address is the same
     'css' => 'v1.0.0',
     'js' => '1.0.0',
-    'app' => '1.06.0',
-    'date' => '3rd October 2026',
+    'app' => '1.07.0',
+    'date' => '25th October 2026',
 ];
