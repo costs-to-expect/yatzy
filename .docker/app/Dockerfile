@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.5-apache
 
 # Composer is part of the image so dependencies are installed with the same PHP the app runs on,
 # docker exec yatzy.app composer install

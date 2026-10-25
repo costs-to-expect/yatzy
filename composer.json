@@ -5,7 +5,7 @@
     "keywords": ["yahtzee", "yatzy", "scoring", "open-source"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.5",
         "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10",
@@ -63,7 +63,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-            "php": "8.2"
+            "php": "8.5.12"
         }
     },
     "minimum-stability": "stable",
